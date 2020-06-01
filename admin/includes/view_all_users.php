@@ -39,9 +39,10 @@
             echo "<td>$user_role</td>";
             
             echo "<td></td>";
-            echo "<td><a href='comments.php?source=approved&c_id='>Approve</a></td>";
-            echo "<td><a href='comments.php?source=denied&c_id='>Deny</a></td>";
-            echo "<td><a href='comments.php?delete='>Delete</a></td>";
+            echo "<td><a href='users.php?source=admin&u_id={$user_id}'>Make Admin</a></td>";
+            echo "<td><a href='users.php?source=subscriber&u_id={$user_id}'>Make Subscriber</a></td>";
+            echo "<td><a href='users.php?delete={$user_id}'>Delete</a></td>";
+            echo "<td><a href='users.php?source=edit_user&u_id={$user_id}'>Edit</a></td>";
             echo "</tr>";
         
             
@@ -58,21 +59,21 @@
  
     $delete_id = $_GET['delete'];
 
-    $query = "DELETE FROM comments WHERE comment_id = '{$comment_id}' ";
-    $delete_comment_query = mysqli_query($connection,$query);
-    confirmQuery($delete_comment_query);
-    header("Location: comments.php");
+    $query = "DELETE FROM users WHERE user_id = '{$delete_id}' ";
+    $delete_user_query = mysqli_query($connection,$query);
+    confirmQuery($delete_user_query);
+    header("Location: users.php");
     }
     //update status
     if(isset($_GET['source'])){
-        $comment_status = $_GET['source'];
-        $comment_id = $_GET['c_id'];
+        $new_role = $_GET['source'];
+        $user_id = $_GET['u_id'];
         
-        $query = "UPDATE comments SET ";
-        $query .= "comment_status = '{$comment_status}' ";
-        $query .="WHERE comment_id = '{$comment_id}'; ";
-        $update_comment_status_query = mysqli_query($connection, $query);
-        confirmQuery($update_comment_status_query);
-        header("Location: comments.php");
+        $query = "UPDATE users SET ";
+        $query .= "user_role = '{$new_role}' ";
+        $query .="WHERE user_id = '{$user_id}'; ";
+        $change_role_query = mysqli_query($connection, $query);
+        confirmQuery($change_role_query);
+        header("Location: users.php");
         }
 ?>                  
