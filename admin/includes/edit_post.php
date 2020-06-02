@@ -26,7 +26,7 @@ if(isset($_POST['update_post'])){
         $post_title = $_POST['title'];
         $post_author = $_POST['author'];
         $post_category_id = $_POST['post_category'];
-        $post_status = $_POST['status'];
+        $post_status = $_POST['status']; 
         $post_image = $_FILES['image']['name'];
         $post_image_temp = $_FILES['image']["tmp_name"];
         $post_tags = $_POST['tags'];
