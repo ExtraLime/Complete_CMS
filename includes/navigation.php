@@ -26,14 +26,21 @@
                         echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }               
                     ?>
-                    <li><a href="admin/">Admin</a></li>  
+                    <li><a href="admin/">Admin</a>
+                    </li>  
 <!--
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li> 
--->
+                        <a href="#">Services</a>-->
+                    <?php
+                        if (session_status() === PHP_SESSION_NONE) session_start(); 
+
+                        if (isset($_SESSION['user_role'])) {
+                        if (isset($_GET['p_id'])) {
+                         $the_post_id = $_GET['p_id'];
+                         echo "<li><a href='admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
+                            }
+                        }
+    ?>
+
                     
                     
                 </ul>

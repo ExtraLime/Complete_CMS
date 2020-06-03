@@ -25,6 +25,7 @@ if(isset($_POST['create_user'])){
     
     $create_user_query = mysqli_query($connection,$query);
     confirmQuery($create_user_query);
+    echo "User has been Created" . ' '. "<a href='users.php'>View Users</a>";
     
 } 
 
@@ -43,7 +44,7 @@ if(isset($_POST['create_user'])){
     
  <div class="form-group">
         <select  name="user_role" id="user_role">
-         <option value="subscriber">Select Options</option>        
+         <option value="subscriber">Select Option</option>        
          <option value="admin">Admin</option>
          <option value="subscriber">Subscriber</option>
      </select>

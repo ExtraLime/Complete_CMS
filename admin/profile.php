@@ -14,10 +14,41 @@ $username = $_SESSION['username'];
             $username = $row['username'];
             $user_email = $row['user_email'];
             $user_password = $row['user_password'];
+            $user_id = $row['user_id'];
+            $user_role = $row['user_role'];
+            
+            
             
             
         }
     }
+    
+   if(isset($_POST['edit_profile'])){
+        $username = $_POST['username'];
+        $user_role = $_POST['user_role'];
+        $user_first_name = $_POST['user_first_name'];
+        $user_last_name = $_POST['user_last_name'];
+        $user_email = $_POST['user_email'];
+        $user_password = $_POST['password'];
+       
+       $query = "UPDATE users SET ";
+       $query .= "username = '{$username}', ";
+       $query .= "user_password = '{$user_password}', ";
+       $query .= "user_first_name = '{$user_first_name}', ";
+       $query .= "user_last_name = '{$user_last_name}', ";       
+       $query .= "user_email = '{$user_email}', ";
+       $query .= "user_role = '{$user_role}' ";
+       $query .= "WHERE user_id = '{$user_id}' ";
+       
+       $update_profile_query = mysqli_query($connection, $query);
+       
+       if(!$update_profile_query){
+           die("QUERY FAILED". " " . mysqli_error($connection));
+       }else{
+           header('Location: profile.php');
+       }
+       
+        }
     
     ?>
 
@@ -61,14 +92,16 @@ $username = $_SESSION['username'];
         
         
         <?php 
-            if($user_role == 'admin'){
+            if(!$user_role == 'admin'){
                 echo "<option value='subscriber'>Subscriber</option>";
+                echo "<option value='admin'>Admin</option>";
             }else{
                 echo "<option value='admin'>Admin</option>";
+                echo "<option value='subscriber'>Subscriber</option>";
             }
             
             ?>
-         <option value="subscriber"><?php echo $user_role ?></option>        
+       
          
          
      </select>
@@ -99,8 +132,8 @@ $username = $_SESSION['username'];
 
     
     <div class="form-group">
-        <label for="edit_user">Edit User</label>
-        <input name='edit_user' class='btn btn-primary' type="submit" value="Update Profile">    
+        <label for="edit_profile">Edit User</label>
+        <input name='edit_profile' class='btn btn-primary' type="submit" value="Update Profile">    
     </div>
 </form>
             

@@ -6,7 +6,7 @@ if(isset($_POST['create_post'])){
         $post_title = $_POST['title'];
         $post_author = $_POST['author'];
         $post_category_id = $_POST['post_category'];
-        $post_status = $_POST['status'];
+        $post_status = $_POST['post_status'];
 
     
         $post_image = $_FILES['post_image']['name'];
@@ -61,10 +61,15 @@ if(isset($_POST['create_post'])){
         <input name='author' class='form-control' type="text">    
     </div>
     
-    <div class="form-group">
-        <label for="status">Post Status</label>
-        <input name='status' class='form-control' type="text">    
-    </div>
+<div class="form-group">
+   <label for="post_status">Post Status</label>
+    <select name="post_status" id="">
+        <option value='draft'>Draft</option>
+        <option value='published'>Publish</option>
+        
+
+    </select>
+            </div>      
     
     <div class="form-group">
         <label for="post_image">Post Image</label>
@@ -78,8 +83,7 @@ if(isset($_POST['create_post'])){
     
     <div class="form-group">
         <label for="content">Post Content</label>
-        <textarea  name='content' class='form-control' cols="30" rows="10" id=''>
-        </textarea>    
+        <textarea  name='content' class='form-control' cols="30" rows="10" id=''></textarea>    
     </div>
     
     <div class="form-group">

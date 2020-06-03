@@ -26,7 +26,7 @@ if(isset($_POST['update_post'])){
         $post_title = $_POST['title'];
         $post_author = $_POST['author'];
         $post_category_id = $_POST['post_category'];
-        $post_status = $_POST['status']; 
+        $post_status = $_POST['post_status']; 
         $post_image = $_FILES['image']['name'];
         $post_image_temp = $_FILES['image']["tmp_name"];
         $post_tags = $_POST['tags'];
@@ -57,7 +57,7 @@ if(isset($_POST['update_post'])){
         $edit_post_query = mysqli_query($connection,$query);
     
         confirmQuery($edit_post_query);
-                
+        echo "<p class='bg-success'>The Post was updated. <a href='../post.php?p_id=$the_post_id'>View Post</a> or <a href='posts.php'>Edit Another Post</a></p>";
 }
 
 
@@ -67,7 +67,7 @@ if(isset($_POST['update_post'])){
         <form action="" method='post' enctype="multipart/form-data">
    
     <div class="form-group">
-        <label for="titls">Post Title</label>
+        <label for="title">Post Title</label>
         <input value='<?php echo $post_title ?>' name='title' class='form-control' type="text">    
     </div>
     
@@ -95,11 +95,26 @@ if(isset($_POST['update_post'])){
         <label for="author">Post Author</label>
         <input value='<?php echo $post_author ?>' name='author' class='form-control' type="text">    
     </div>
+<div class="form-group">
+   <label for="post_status">Post Status</label>
+    <select name="post_status" id="">
+        <option value='<?php echo $post_status ?>'><?php echo $post_status?></option>
+       <?php if($post_status == 'published'){
+    echo "<option value='draft'>Draft</option>";
+}else {
+    echo "<option value='published'>Publish</option>";
     
+}
+        
+        ?>
+    </select>
+            </div>       
+<!--
     <div class="form-group">
         <label for="status">Post Status</label>
         <input value='<?php echo $post_status ?>' name='status' class='form-control' type="text">    
     </div>
+-->
     
     <div class="form-group">
         <label for="post_image">Post Image</label>

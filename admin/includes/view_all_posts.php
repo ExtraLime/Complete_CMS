@@ -1,6 +1,67 @@
-                       <table class='table table-bordered table-hover'>
+<?php 
+
+if(isset($_POST['checkBoxArray'])){
+    foreach($_POST['checkBoxArray'] as $checkBoxValue){
+        $bulk_options = $_POST['bulk'];
+        switch($bulk_options){
+                case 'publish';
+                    $query = "UPDATE posts SET post_status = 'published' WHERE post_id = {$checkBoxValue}; ";
+                    $bulk_publish_query = mysqli_query($connection,$query);
+                if(!$bulk_publish_query){
+                    die("Query Failed" . mysqli_error($connection));
+                }else{ echo "Update Success";}
+                break;
+                case 'draft';
+                    $query = "UPDATE posts SET post_status = 'draft' WHERE post_id = {$checkBoxValue}; ";
+                    $bulk_publish_query = mysqli_query($connection,$query);
+                if(!$bulk_publish_query){
+                    die("Query Failed" . mysqli_error($connection));
+                }
+                break;
+                case 'delete';
+                    $query = "DELETE FROM posts WHERE post_id = {$checkBoxValue}; ";
+                    $bulk_publish_query = mysqli_query($connection,$query);
+                if(!$bulk_publish_query){
+                    die("Query Failed" . mysqli_error($connection));
+                }
+                break;
+                default;
+                header("Location: posts.php");
+        }
+    }
+}
+
+
+
+?>
+                          
+                    <form action='' method='post'>
+                           <table class='table table-bordered table-hover'>
+                           
+                           
+                           <div id="bulkOptionContainer" class='col-xs-4'>
+                               <select class='form-control' name="bulk" id="">
+                                   <option value="">Select Option</option>
+                                   <option value="publish">Publish</option>
+                                   <option value="draft">Draft</option>
+                                   <option value="delete">Delete</option>
+                                   
+                               </select>                       
+                           </div>
+                           
+                           <div>
+                           <input type="submit" name='submit' class="btn btn-success" value='Apply'>
+                           <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
+                               
+                           
+                           </div>
+                           
+                           
+                           
+                           
                            <thead>
                                <tr>
+                                    <th><input id='selectAllBoxes' type="checkbox"></th>
                                    <th>Id</th>
                                    <th>Category</th>
                                    <th>Title</th>
@@ -35,7 +96,10 @@
         $post_status = $row['post_status'];
             
             
-            echo "<tr>";
+            echo "<tr>";?>
+            <td><input id='selectAllBoxes' type='checkbox' name='checkBoxArray[]' value='<?php echo $post_id ?>'></td>
+            <?php
+            
             echo "<td>$post_id</td>";
             
             $query = "SELECT * FROM categories WHERE cat_id = $post_category_id ";
@@ -45,7 +109,8 @@
             $cat_title = $row['cat_type'];
             $cat_id = $row['cat_id'];               
             
-            echo "<td>{$cat_title}</td>";  }
+            echo "<td>{$cat_title}</td>"; 
+            }
             
             
             
@@ -71,7 +136,7 @@
                            
                        </tbody>
                        </table>
-                       
+                       </form>
     
     <?php 
 if(isset($_GET['delete'])){
