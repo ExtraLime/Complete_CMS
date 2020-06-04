@@ -1,5 +1,6 @@
 <?php include "includes/admin_header.php"?>
-<?php   
+<?php  include "includes/admin_navigation.php"?>
+   <?php 
     
     if(isset($_SESSION['username'])){
 $username = $_SESSION['username'];
@@ -31,9 +32,20 @@ $username = $_SESSION['username'];
         $user_email = $_POST['user_email'];
         $user_password = $_POST['password'];
        
+        $query = 'SELECT randSalt FROM users';
+        $salt_query = mysqli_query($connection, $query);
+        if(!$salt_query){
+            die("Query Failed" . mysqli_error($connection));
+        }
+        $row = mysqli_fetch_array($salt_query);
+        $salt = $row['randSalt'];    
+        $hashed_password = crypt($user_password, $salt);          
+       
+       
+       
        $query = "UPDATE users SET ";
        $query .= "username = '{$username}', ";
-       $query .= "user_password = '{$user_password}', ";
+       $query .= "user_password = '{$hashed_password}', ";
        $query .= "user_first_name = '{$user_first_name}', ";
        $query .= "user_last_name = '{$user_last_name}', ";       
        $query .= "user_email = '{$user_email}', ";

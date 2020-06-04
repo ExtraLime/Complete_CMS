@@ -43,18 +43,28 @@ if(isset($_POST['edit_user'])){
 //            }
 //        }
     
+        $query = 'SELECT randSalt FROM users';
+        $salt_query = mysqli_query($connection, $query);
+        if(!$salt_query){
+            die("Query Failed" . mysqli_error($connection));
+        }
+        $row = mysqli_fetch_array($salt_query);
+        $salt = $row['randSalt'];    
+        $hashed_password = crypt($user_password, $salt);    
+
         $query = "UPDATE users SET ";
         $query .="user_first_name = '{$user_first_name}', ";
         $query .="user_last_name = '{$user_last_name}', ";
         $query .="user_role = '{$user_role}', ";
         $query .="username = '{$username}', ";
-        $query .="user_password = '{$user_password}', ";
+        $query .="user_password = '{$hashed_password}', ";
         $query .="user_email = '{$user_email}' ";
         $query .="WHERE user_id = '{$user_id}' ";
 
         $edit_user_query = mysqli_query($connection,$query);
     
         confirmQuery($edit_user_query);
+        echo "<p class='bg-success'>The User was Updated. <a href='./users.php'>View Users</a></p>";
                 
 }
 

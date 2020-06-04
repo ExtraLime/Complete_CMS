@@ -19,13 +19,24 @@ if(isset($_POST['create_user'])){
 
 //        move_uploaded_file($post_image_temp,"../images/$post_image");
     
+    
+    
+    $query = 'SELECT randSalt FROM users';
+    $salt_query = mysqli_query($connection, $query);
+    if(!$salt_query){
+        die("Query Failed" . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_array($salt_query);
+    $salt = $row['randSalt'];    
+    $hashed_password = crypt($password, $salt); 
+    
     $query = "INSERT INTO users(username, user_password, user_first_name,
     user_last_name, user_email, user_role) ";
-    $query .= "VALUES ('{$username}', '{$password}', '{$user_first_name}', '{$user_last_name}', '{$user_email}', '{$user_role}') ";
+    $query .= "VALUES ('{$username}', '{$hashed_password}', '{$user_first_name}', '{$user_last_name}', '{$user_email}', '{$user_role}') ";
     
     $create_user_query = mysqli_query($connection,$query);
     confirmQuery($create_user_query);
-    echo "User has been Created" . ' '. "<a href='users.php'>View Users</a>";
+    echo "<p class='bg-success'>User has been Created" . ' '. "<a href='users.php'>View Users</a></p>";
     
 } 
 

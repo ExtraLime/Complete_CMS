@@ -1,7 +1,7 @@
 
     <!-- Navigation -->
 
-    <?php include 'includes/db.php'?>
+    <?php require_once 'includes/db.php'?>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -27,7 +27,9 @@
                     }               
                     ?>
                     <li><a href="admin/">Admin</a>
-                    </li>  
+                    </li>
+                    <li><a href="registration.php">Register</a>
+                    </li>                        
 <!--
                         <a href="#">Services</a>-->
                     <?php

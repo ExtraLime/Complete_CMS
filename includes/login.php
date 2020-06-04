@@ -1,12 +1,11 @@
-<?php include "db.php"?>
+<?php require_once "db.php"?>
                
 <?php session_start(); ?>
 <?php if(isset($_POST['login'])){
     
     $username = $_POST['username'];
     $user_password = $_POST['user_password'];
-    echo $username;
-    echo $user_password;
+
     if(strlen($username) < 2){
         header("Location: ../index.php");
     }
@@ -36,10 +35,19 @@
 //}else {
 //    header("Location: ../index.php");
 //}
-    
-    
-    
-if(strlen($username)>1 && $username === $db_username && $user_password ===   $db_user_password){
+    $query = 'SELECT randSalt FROM users';
+    $salt_query = mysqli_query($connection, $query);
+    if(!$salt_query){
+        die("Query Failed" . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_array($salt_query);
+    $salt = $row['randSalt'];    
+    $user_password = crypt($user_password, $db_user_password);    
+
+    echo $user_password.'<br>';
+    echo $db_user_password.'<br>';
+    echo crypt($user_password,$db_user_password).'<br>';
+if(strlen($username)>1 && $username == $db_username && $user_password == $db_user_password){
         $_SESSION['username'] = $db_username;
         $_SESSION['firstname'] = $db_user_first_name;
         $_SESSION['lastname'] = $db_user_last_name;

@@ -1,5 +1,5 @@
-<?php include 'includes/header.php';?>
-<?php include 'includes/navigation.php';?>
+<?php require_once 'includes/header.php';?>
+<?php require_once 'includes/navigation.php';?>
 
     <!-- Page Content -->
     <div class="container">

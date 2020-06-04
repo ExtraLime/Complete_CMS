@@ -1,5 +1,5 @@
-<?php include 'includes/header.php';?>
-<?php include 'includes/navigation.php';?>
+<?php require_once 'includes/header.php';?>
+<?php require_once 'includes/navigation.php';?>
 
     <!-- Page Content -->
     <div class="container">
@@ -53,10 +53,14 @@
    <!-- Blog Comments -->
                 <?php 
                 if(isset($_POST['create_comment'])){
+                    
                     $get_post_id = $_GET['p_id'];
                     $comment_author  = $_POST['comment_author'];
                     $comment_email  = $_POST['comment_email'];
                     $comment_content  = $_POST['comment_content'];
+                    
+                    if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
+
                 
                 $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
                 $query .= "VALUES ('{$get_post_id}', '{$comment_author}', '{$comment_email}', '{$comment_content}', 'Denied', now()) ";
@@ -73,7 +77,9 @@
                     
                     
                 
-                
+                    } else {
+                        echo "<script>alert('Fields cannot be empty')</script>";
+                    }
                 
                 
                 }

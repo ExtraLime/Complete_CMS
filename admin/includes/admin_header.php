@@ -1,5 +1,5 @@
-<?php include "../includes/db.php"?>
-<?php include "functions.php"?>
+<?php require_once "../includes/db.php"?>
+<?php require_once "functions.php"?>
 <?php ob_start();?>
 <?php session_start();?>
 
