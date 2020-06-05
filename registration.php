@@ -16,6 +16,10 @@ if(isset($_POST['submit'])){
     $username = mysqli_real_escape_string($connection,$_POST['username']);
     $user_password = mysqli_real_escape_string($connection,$_POST['password']);
     $user_email = mysqli_real_escape_string($connection,$_POST['email']);
+
+    $user_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 14));
+
+
     
     $sql_u = "SELECT * FROM users WHERE username='$username'";
   	$sql_e = "SELECT * FROM users WHERE user_email='$user_email'";

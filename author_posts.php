@@ -14,21 +14,21 @@
                 if(isset($_GET['p_id'])){
                     
                     $get_post_id = $_GET['p_id'];
+                    $get_post_author = $_GET['author'];
                     
-                    $query = "UPDATE posts SET post_views = post_views + 1 WHERE post_id = $get_post_id; ";
-                    $views_query = mysqli_query($connection, $query);
-                    if(!$views_query){
-                        die("ADD count failed" . ' ' . mysqli_error($connection));
-                    }
-                
-                    $query = "SELECT * FROM posts WHERE post_id = $get_post_id; ";
+                    
+                }
+                    $query = "SELECT * FROM posts WHERE post_author = '{$get_post_author}'; ";
                     $select_all_posts = mysqli_query($connection, $query);               
                     while($row = mysqli_fetch_assoc($select_all_posts)){
+                        $post_id = $row['post_id'];
                         $post_title = $row['post_title'];
                         $post_author = $row['post_author'];
                         $post_date = $row['post_date'];
                         $post_image = $row['post_image'];
                         $post_content = $row['post_content'];
+                        
+
 
                         ?>
             
@@ -39,10 +39,10 @@
 
                         <!-- First Blog Post -->
                         <h2>
-                            <a href="#"><?php echo $post_title?></a>
+                            <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title?></a>
                         </h2>
                         <p class="lead">
-                            by <a href="author_posts.php?author=<?php echo $post_author?>&p_id=<?php echo $post_id?>"><?php echo $post_author?></a>
+                            by <a href="author_posts.php?author=<?php echo $post_author?>&p_id=<?php echo $post_id ?>"><?php echo $post_author?></a>
                         </p>
                         <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date?></p>
                         <hr>
@@ -52,14 +52,7 @@
                         <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                         <hr>
-                <?php }
-            
-            
-            }else{
-            
-            header("Location: index.php");
-            
-            }?>
+                <?php  }?>
                     
    <!-- Blog Comments -->
                 <?php 
@@ -103,28 +96,7 @@
                 
                 ?>
 
-                <!-- Comments Form -->
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form method="post" action="" role="form">
-                        
-                           
-                           
-                        <div class="form-group">
-                           <label for="comment_author">Author</label>
-                            <input name="comment_author" type="text" class="form-control" name="comment_author">
-                        </div>
-                         <div class="form-group">
-                           <label for="comment_email">Email</label>
-                            <input name="comment_email" type="email" class="form-control" name="comment_email">
-                        </div>
-                         <div class="form-group">
-                           <label for="comment_content">Comment</label>                            
-                             <textarea class="form-control" name="comment_content"></textarea>
-                        </div>                                               
-                        <button name="create_comment" type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+
 
                 <hr>
 

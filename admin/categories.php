@@ -52,13 +52,13 @@
                                            
                         </div>                                           
                             <div class="col-xs-6">                   
-                            <table class="table table-borderd table-hover">
-                           <thed>
+                            <table class="table table-bordered table-hover">
+                           <thead>
                                <tr>
                                    <th>ID</th>
                                    <th>Category Title</th>
                                </tr>
-                           </thed>
+                           </thead>
                            <!--//Find all Categories Query-->
                            <tbody>                           
                                 <?php findAllCategories();?>
@@ -84,10 +84,6 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
 <?php include 'includes/admin_footer.php'?>

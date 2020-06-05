@@ -11,15 +11,16 @@ $username = $_SESSION['username'];?>
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.php">CMS Admin</a>
-            </div>
-           
-            
-             
+            </div>             
               
                
                  <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-               <li><a href="../index.php" class="">Back To Home</a></li>
+                <!-- <li><a href="" class="">Users Online: <?php echo online_count() ?></a></li> -->
+                <li><a href="" class="">Users Online: <span class="usersonline"></span></a></li>
+
+                <li><a href="../index.php" class="">Back To Home</a></li>
+               
 
                 
                 <li class="dropdown">

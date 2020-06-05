@@ -9,7 +9,23 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
-                    $query = "SELECT * FROM posts WHERE post_status = 'published'; ";
+                $per_page = 5;
+                $query_count = mysqli_num_rows(mysqli_query($connection,"SELECT * FROM posts"));
+                $count = ceil($query_count/$per_page);
+
+                if(isset($_GET['page'])){
+                    $page = $_GET['page'];
+                }else{
+                    $page = '';
+                }
+                if ($page == 1 || $page == ''){
+                    $pager = 1;
+                }else{
+                    $pager = ($page * $per_page) - $per_page;
+                }
+                    
+
+                    $query = "SELECT * FROM posts LIMIT $pager, $per_page; ";
                     $select_all_posts = mysqli_query($connection, $query);
 
                     while($row = mysqli_fetch_assoc($select_all_posts)){
@@ -37,7 +53,7 @@
                             <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title?></a>
                         </h2>
                         <p class="lead">
-                            by <a href="index.php"><?php echo $post_author?></a>
+                            by <a href="author_posts.php?author=<?php echo $post_author?>&p_id=<?php echo $post_id?>"><?php echo $post_author?></a>
                         </p>
                         <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date?></p>
                         <hr>
@@ -60,7 +76,32 @@
 
             <!-- Blog Sidebar Widgets Column -->
             <?php include 'includes/sidebar.php';?>
-        <!-- /.row -->
+        <!-- /pagination -->
+        <ul class="pager">
+        <?php
+        if($page > 2){
+            $back = $page - 2;
+            echo "<li><a href='index.php?page=<?php echo $back ?>'>Back</a></li>";
+            for($i = $page-2; $i<= $page+2; $i++) {
+                if($i == $page){
+                    echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                }else{
+                echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                }
+            }
+        }else{
+            for($i = 1; $i<= 3; $i++) {
+                if($i == $page){
+                    echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                }else{
+                echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                }
+            }
+        }
+        ?>
+
+            <li><a href='index.php?page=<?php echo $page+1?>'>Next</a></li>
+        </ul>
 
         <hr>
 <?php include 'includes/footer.php'?>
