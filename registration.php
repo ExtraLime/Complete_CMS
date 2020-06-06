@@ -17,7 +17,7 @@ if(isset($_POST['submit'])){
     $user_password = mysqli_real_escape_string($connection,$_POST['password']);
     $user_email = mysqli_real_escape_string($connection,$_POST['email']);
 
-    $user_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 14));
+    
 
 
     
@@ -33,14 +33,8 @@ if(isset($_POST['submit'])){
   	  $message = "<p class='bg-danger'>This email is already registered <a href='index.php'>Go Back</a></p>"; 		
   	}else{
 
-    $query = 'SELECT randSalt FROM users';
-    $salt_query = mysqli_query($connection, $query);
-    if(!$salt_query){
-        die("Query Failed" . mysqli_error($connection));
-    }
-    $row = mysqli_fetch_array($salt_query);
-    $salt = $row['randSalt'];    
-    $user_password = crypt($user_password, $salt);
+    
+    $user_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
     
     $query = "INSERT INTO users (username, user_password, user_email, user_role) ";
     $query .= "VALUES('{$username}', '{$user_password}', '{$user_email}', 'subscriber') ";

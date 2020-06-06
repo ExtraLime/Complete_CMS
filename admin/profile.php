@@ -3,7 +3,7 @@
    <?php 
     
     if(isset($_SESSION['username'])){
-$username = $_SESSION['username'];
+    $username = $_SESSION['username'];
         $query = "SELECT * FROM users WHERE username = '{$username}'; ";
         $get_profile_query = mysqli_query($connection,$query);
         if(!$get_profile_query){
@@ -15,18 +15,12 @@ $username = $_SESSION['username'];
             $username = $row['username'];
             $user_email = $row['user_email'];
             $user_password = $row['user_password'];
-            $user_id = $row['user_id'];
-            $user_role = $row['user_role'];
-            
-            
-            
-            
+            $user_id = $row['user_id'];  
         }
     }
     
    if(isset($_POST['edit_profile'])){
         $username = $_POST['username'];
-        $user_role = $_POST['user_role'];
         $user_first_name = $_POST['user_first_name'];
         $user_last_name = $_POST['user_last_name'];
         $user_email = $_POST['user_email'];
@@ -49,7 +43,6 @@ $username = $_SESSION['username'];
        $query .= "user_first_name = '{$user_first_name}', ";
        $query .= "user_last_name = '{$user_last_name}', ";       
        $query .= "user_email = '{$user_email}', ";
-       $query .= "user_role = '{$user_role}' ";
        $query .= "WHERE user_id = '{$user_id}' ";
        
        $update_profile_query = mysqli_query($connection, $query);
@@ -99,26 +92,6 @@ $username = $_SESSION['username'];
         <input value='<?php echo $user_last_name ?>' name='user_last_name' class='form-control' type="text">    
     </div>
     
- <div class="form-group">
-        <select  name="user_role" id="user_role">
-        
-        
-        <?php 
-            if(!$user_role == 'admin'){
-                echo "<option value='subscriber'>Subscriber</option>";
-                echo "<option value='admin'>Admin</option>";
-            }else{
-                echo "<option value='admin'>Admin</option>";
-                echo "<option value='subscriber'>Subscriber</option>";
-            }
-            
-            ?>
-       
-         
-         
-     </select>
-     </div>
-    
     
     
 <!--
@@ -138,7 +111,7 @@ $username = $_SESSION['username'];
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input value='<?php echo $user_password ?>' name='password' class='form-control' type="password">    
+        <input autocomplete="off" name='password' class='form-control' type="password">    
     </div>
     
 

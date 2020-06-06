@@ -3,7 +3,7 @@
 <?php 
 
 if(isset($_GET['u_id'])){
-        $u_id = $_GET['u_id'];}
+        $u_id = $_GET['u_id'];
 
         $query = "SELECT * FROM users WHERE user_id = '{$u_id}'; ";
         $select_user_by_id = mysqli_query($connection, $query);               
@@ -16,7 +16,7 @@ if(isset($_GET['u_id'])){
         $username = $row['username'];
         $user_password = $row['user_password'];
         $user_email = $row['user_email'];
-        }
+        
 
 
 if(isset($_POST['edit_user'])){
@@ -43,15 +43,19 @@ if(isset($_POST['edit_user'])){
 //            }
 //        }
     
-        $query = 'SELECT randSalt FROM users';
-        $salt_query = mysqli_query($connection, $query);
-        if(!$salt_query){
-            die("Query Failed" . mysqli_error($connection));
-        }
-        $row = mysqli_fetch_array($salt_query);
-        $salt = $row['randSalt'];    
-        $hashed_password = crypt($user_password, $salt);    
+        if(!empty($user_password)){
+            $query_password = "SELECT user_password FROM users WHERE user_id = $user_id; ";
+            $get_user_query = mysqli_query($connection,$query_password);
+            confirmQuery($get_user_query);
+            $row = mysqli_fetch_array($get_user_query);
 
+            $db_user_password = $row['user_password'];
+        }
+        if($db_user_password != $user_password){
+            $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));   
+        }else{
+            $hashed_password = $user_password;
+        }
         $query = "UPDATE users SET ";
         $query .="user_first_name = '{$user_first_name}', ";
         $query .="user_last_name = '{$user_last_name}', ";
@@ -66,6 +70,11 @@ if(isset($_POST['edit_user'])){
         confirmQuery($edit_user_query);
         echo "<p class='bg-success'>The User was Updated. <a href='./users.php'>View Users</a></p>";
                 
+}
+}
+        
+}else{
+    header("Location: index.php");
 }
 
 ?>
@@ -87,13 +96,16 @@ if(isset($_POST['edit_user'])){
         
         <?php 
             if($user_role == 'admin'){
+                echo "<option value='admin'>Admin</option>";
                 echo "<option value='subscriber'>Subscriber</option>";
             }else{
+                echo "<option value='subscriber'>Subscriber</option>";
                 echo "<option value='admin'>Admin</option>";
+
             }
             
             ?>
-         <option value="subscriber"><?php echo $user_role ?></option>        
+                
          
          
      </select>
@@ -118,7 +130,7 @@ if(isset($_POST['edit_user'])){
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input value='<?php echo $user_password ?>' name='password' class='form-control' type="password">    
+        <input autocomplete="off" name='password' class='form-control' type="password">    
     </div>
     
 

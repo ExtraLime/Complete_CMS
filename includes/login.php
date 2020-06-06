@@ -35,19 +35,11 @@
 //}else {
 //    header("Location: ../index.php");
 //}
-    $query = 'SELECT randSalt FROM users';
-    $salt_query = mysqli_query($connection, $query);
-    if(!$salt_query){
-        die("Query Failed" . mysqli_error($connection));
-    }
-    $row = mysqli_fetch_array($salt_query);
-    $salt = $row['randSalt'];    
-    $user_password = crypt($user_password, $db_user_password);    
+    
 
-    echo $user_password.'<br>';
-    echo $db_user_password.'<br>';
-    echo crypt($user_password,$db_user_password).'<br>';
-if(strlen($username)>1 && $username == $db_username && $user_password == $db_user_password){
+    $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
+
+if(password_verify($user_password,$db_user_password)){
         $_SESSION['username'] = $db_username;
         $_SESSION['firstname'] = $db_user_first_name;
         $_SESSION['lastname'] = $db_user_last_name;

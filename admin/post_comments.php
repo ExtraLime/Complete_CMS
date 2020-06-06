@@ -1,4 +1,29 @@
-                       
+<?php include "includes/admin_header.php"?>
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <div id="wrapper">
+        <!--Navigation-->
+        <?php include "includes/admin_navigation.php"?>
+       
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                         <h1 class="page-header">
+                            Welcome to the Admin Page
+                            <small>Author</small>
+                            </h1>
 <?php
 
 if(isset($_POST['checkBoxArray'])){
@@ -72,8 +97,9 @@ if(isset($_POST['checkBoxArray'])){
                        <tbody>
                            <?php 
         //get all comments from db                  
-        $query = "SELECT * FROM comments;";
-        $select_comments = mysqli_query($connection, $query);               
+        $query = "SELECT * FROM comments WHERE comment_post_id =" . mysqli_real_escape_string($connection, $_GET['id']);
+        $select_comments = mysqli_query($connection, $query);
+        confirmQuery($select_comments)               ;
         //iterate for each comment
         while($row = mysqli_fetch_assoc($select_comments)){
             $comment_id = $row['comment_id'];
@@ -107,9 +133,9 @@ if(isset($_POST['checkBoxArray'])){
             } 
 
             echo "<td>$comment_date</td>";
-            echo "<td><a href='comments.php?source=approved&c_id=$comment_id'>Approve</a></td>";
-            echo "<td><a href='comments.php?source=denied&c_id=$comment_id'>Deny</a></td>";
-            echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";
+            echo "<td><a href='post_comments.php?source=approved&c_id=$comment_id&id=$post_id'>Approve</a></td>";
+            echo "<td><a href='post_comments.php?source=denied&c_id=$comment_id&id=$post_id'>Deny</a></td>";
+            echo "<td><a href='post_comments.php?delete=$comment_id&id=$post_id'>Delete</a></td>";
             echo "</tr>";
         
             
@@ -123,24 +149,44 @@ if(isset($_POST['checkBoxArray'])){
     <?php
     //delete comment query
     if(isset($_GET['delete'])){
- 
+    $id = $_GET['id'] ;
     $delete_id = $_GET['delete'];
 
-    $query = "DELETE FROM comments WHERE comment_id = '{$comment_id}' ";
+    $query = "DELETE FROM comments WHERE comment_id =". mysqli_real_escape_string($connection,$delete_id);
     $delete_comment_query = mysqli_query($connection,$query);
     confirmQuery($delete_comment_query);
-    header("Location: comments.php");
+    header("Location: post_comments.php?id=$id");
     }
     //update status
     if(isset($_GET['source'])){
         $comment_status = $_GET['source'];
         $comment_id = $_GET['c_id'];
-        
-        $query = "UPDATE comments SET ";
+        $id = $_GET['id']
+;        $query = "UPDATE comments SET ";
         $query .= "comment_status = '{$comment_status}' ";
         $query .="WHERE comment_id = '{$comment_id}'; ";
         $update_comment_status_query = mysqli_query($connection, $query);
         confirmQuery($update_comment_status_query);
-        header("Location: comments.php");
+        header("Location: post_comments.php?id=$id");
         }
 ?>                  
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+<?php include 'includes/admin_footer.php'?>

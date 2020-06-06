@@ -73,34 +73,23 @@
                     if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
 
                 
-                $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
-                $query .= "VALUES ('{$get_post_id}', '{$comment_author}', '{$comment_email}', '{$comment_content}', 'Denied', now()) ";
-                
-                $add_comment_query = mysqli_query($connection,$query);
-                if(!$add_comment_query){
-                    echo mysqli_error($connection);
-                }
-                
-                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-                $query .="WHERE post_id = $get_post_id; ";
-                    
-                $increment_post_query = mysqli_query($connection, $query);
-                    
-                    
-                
-                    } else {
-                        echo "<script>alert('Fields cannot be empty')</script>";
-                    }
-                
-                
-                }
-                
+                        $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
+                        $query .= "VALUES ('{$get_post_id}', '{$comment_author}', '{$comment_email}', '{$comment_content}', 'Denied', now()) ";
+                        
+                        $add_comment_query = mysqli_query($connection,$query);
+                        if(!$add_comment_query){
+                            echo mysqli_error($connection);
+                        }
+                        
+                        // $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
+                        // $query .="WHERE post_id = $get_post_id; ";
+                            
+                        //$increment_post_query = mysqli_query($connection, $query);
 
-                
-                
-                
-                
-                
+                        } else {
+                            echo "<script>alert('Fields cannot be empty')</script>";
+                        }
+                    }
                 ?>
 
                 <!-- Comments Form -->

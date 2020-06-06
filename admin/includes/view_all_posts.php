@@ -65,8 +65,6 @@ if(isset($_POST['checkBoxArray'])){
                           
                     <form action='' method='post'>
                            <table class='table table-bordered table-hover'>
-                           
-                           
                            <div id="bulkOptionContainer" class='col-xs-4'>
                                <select class='form-control' name="bulk" id="">
                                    <option value="">Select Option</option>
@@ -75,22 +73,13 @@ if(isset($_POST['checkBoxArray'])){
                                    <option value="delete">Delete</option>
                                    <option value="clone">Clone</option>
                                    <option value="reset_views">Reset View Count</option>
-
-
-                                   
                                </select>                       
                            </div>
                            
                            <div>
                            <input type="submit" name='submit' class="btn btn-success" value='Apply'>
-                           <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
-                               
-                           
+                           <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a> 
                            </div>
-                           
-                           
-                           
-                           
                            <thead>
                                <tr>
                                     <th><input id='selectAllBoxes' type="checkbox"></th>
@@ -156,7 +145,18 @@ if(isset($_POST['checkBoxArray'])){
             echo "<td><img height='100px' width='150px' alt='image' src='../images/{$post_image}'></img></td>";
             echo "<td>$post_tags</td>";
             echo "<td>$post_content</td>";
-            echo "<td>$post_comment_count</td>";
+
+            $comment_query = "SELECT * FROM comments WHERE comment_post_id = {$post_id}";
+            $fetch_comment = mysqli_query($connection, $comment_query);
+            $row = mysqli_fetch_array($fetch_comment);
+            $post_comments = mysqli_num_rows($fetch_comment);
+         
+            if($post_comments>0){
+                $comment_post_id = $row['comment_post_id'];
+                echo "<td><a href='post_comments.php?id=$post_id'>$post_comments</a></td>";
+            } else {
+                echo "<td>$post_comments</td>";
+            }
             echo "<td>$post_views</td>";
             echo "<td>$post_status</td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
