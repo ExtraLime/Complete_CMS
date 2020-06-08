@@ -48,7 +48,6 @@ if(isset($_POST['checkBoxArray'])){
                     </div>
                     <div>
                            <input type="submit" name='submit' class="btn btn-success" value='Apply'>
-                           <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a> 
                            </div>
                        
                        <table class='table table-bordered table-hover'>

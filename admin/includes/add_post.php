@@ -4,7 +4,7 @@
 if(isset($_POST['create_post'])){
     
         $post_title = $_POST['title'];
-        $post_author = $_POST['author'];
+        $post_user = $_POST['post_user'];
         $post_category_id = $_POST['post_category'];
         $post_status = $_POST['post_status'];
 
@@ -20,11 +20,10 @@ if(isset($_POST['create_post'])){
         move_uploaded_file($post_image_temp,"../images/$post_image");
 
 
-        $stmt = mysqli_prepare($connection, "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($connection, "INSERT INTO posts (post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if($stmt === FALSE){ die(mysqli_error($connection)); }
-        mysqli_stmt_bind_param($stmt, 'issssssis', $post_category_id, $post_title, $post_author, $post_date, $post_image, $post_content, $post_tags, $post_comment_count, $post_status);
+        mysqli_stmt_bind_param($stmt, 'issssssis', $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_comment_count, $post_status);
         mysqli_stmt_execute($stmt);     
-
     $post_id = mysqli_insert_id($connection);
     echo "<p class='bg-success'>The Post was created. <a href='../post.php?p_id=$post_id'>View Post</a> or <a href='posts.php'>View Another Post</a></p>";
 
@@ -71,7 +70,7 @@ mysqli_stmt_close($stmt);
 
     <div class="form-group">
       <label for="post_author">Author</label>
-    <select name="author" id="post_category">Category
+    <select name="post_user" id="post_user">
         <?php
         
         $query = "SELECT * FROM users";
@@ -81,9 +80,9 @@ mysqli_stmt_close($stmt);
                
         while($row = mysqli_fetch_assoc($select_categories)){
         $username = $row['username'];
-        $user_id = $row['cat_id'];         
+        $user_id = $row['user_id'];         
             
-            echo "<option value='{$user_id}'>{$username}</option>";}
+            echo "<option value='{$username}'>{$username}</option>";}
 
         ?>
         

@@ -12,7 +12,7 @@ if(isset($_GET['p_id'])){
         $post_id = $row['post_id'];
         $post_category_id = $row['post_category_id'];
         $post_title = $row['post_title'];
-        $post_author = $row['post_author'];
+        $post_user = $row['post_user'];
         $post_date = $row['post_date'];
         $post_image = $row['post_image'];
         $post_content = $row['post_content'];
@@ -24,7 +24,7 @@ if(isset($_GET['p_id'])){
 if(isset($_POST['update_post'])){
     
         $post_title = $_POST['title'];
-        $post_author = $_POST['author'];
+        $post_user = $_POST['post_user'];
         $post_category_id = $_POST['post_category'];
         $post_status = $_POST['post_status']; 
         $post_image = $_FILES['image']['name'];
@@ -47,7 +47,7 @@ if(isset($_POST['update_post'])){
         $query .="post_title = '{$post_title}', ";
         $query .="post_category_id = '{$post_category_id}', ";
         $query .="post_date = now(), ";
-        $query .="post_author = '{$post_author}', ";
+        $query .="post_user = '{$post_user}', ";
         $query .="post_status = '{$post_status}', ";
         $query .="post_content = '{$post_content}', ";
         $query .="post_image = '{$post_image}', ";
@@ -90,11 +90,34 @@ if(isset($_POST['update_post'])){
         
     </select> 
     </div>
-    
     <div class="form-group">
-        <label for="author">Post Author</label>
-        <input value='<?php echo $post_author ?>' name='author' class='form-control' type="text">    
+      <label for="post_user">User</label>
+    <select name="post_user" id="post_user">
+        <?php
+        
+        $query = "SELECT * FROM users";
+        $select_categories = mysqli_query($connection, $query);               
+        //confirmQuery($select_categories);
+               
+               
+        while($row = mysqli_fetch_assoc($select_categories)){
+        $username = $row['username'];
+        $user_id = $row['user_id'];         
+            
+            echo "<option value='{$username}'>{$username}</option>";}
+
+        ?>
+        
+    </select>   
     </div>
+    
+    <!-- <div class="form-group">
+        <label for="post_user">Post post_user</label>
+        <input value='<?php// echo $post_user ?>' name='post_user' class='form-control' type="text">    
+    </div> -->
+
+
+
 <div class="form-group">
    <label for="post_status">Post Status</label>
     <select name="post_status" id="">
