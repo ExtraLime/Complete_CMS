@@ -43,31 +43,33 @@ if(isset($_POST['edit_user'])){
 //            }
 //        }
     
-        if(!empty($user_password)){
-            $query_password = "SELECT user_password FROM users WHERE user_id = $user_id; ";
-            $get_user_query = mysqli_query($connection,$query_password);
-            confirmQuery($get_user_query);
-            $row = mysqli_fetch_array($get_user_query);
+        
+        $query_password = "SELECT user_password FROM users WHERE user_id = $user_id; ";
+        $get_user_query = mysqli_query($connection,$query_password);
+        confirmQuery($get_user_query);
+        $row = mysqli_fetch_array($get_user_query);
 
-            $db_user_password = $row['user_password'];
-        }
-        if($db_user_password != $user_password){
+        $db_user_password = $row['user_password'];
+
+        if (empty($user_password)){
+            $hashed_password = $db_user_password;
+        }else {
             $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));   
-        }else{
-            $hashed_password = $user_password;
         }
-        $query = "UPDATE users SET ";
-        $query .="user_first_name = '{$user_first_name}', ";
-        $query .="user_last_name = '{$user_last_name}', ";
-        $query .="user_role = '{$user_role}', ";
-        $query .="username = '{$username}', ";
-        $query .="user_password = '{$hashed_password}', ";
-        $query .="user_email = '{$user_email}' ";
-        $query .="WHERE user_id = '{$user_id}' ";
 
-        $edit_user_query = mysqli_query($connection,$query);
-    
-        confirmQuery($edit_user_query);
+        $query = "UPDATE users SET username=?, user_password=?, user_first_name=?,
+        user_last_name=?, user_email=?, user_role=? WHERE user_id=? ";
+        
+        $stmt = mysqli_prepare($connection, $query);
+            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }
+           
+        mysqli_stmt_bind_param($stmt, 'ssssssi', $username, $hashed_password, $user_first_name, $user_last_name, $user_email, $user_role, $user_id);
+        
+        mysqli_stmt_execute($stmt); 
+        
+        mysqli_stmt_close($stmt); 
+
         echo "<p class='bg-success'>The User was Updated. <a href='./users.php'>View Users</a></p>";
                 
 }

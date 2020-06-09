@@ -56,15 +56,24 @@
     <?php
     //delete comment query
     if(isset($_GET['delete'])){
+        if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
+
+
  
-    $delete_id = $_GET['delete'];
+    $delete_id = mysqli_real_escape_string($_GET['delete']);
 
     $query = "DELETE FROM users WHERE user_id = '{$delete_id}' ";
     $delete_user_query = mysqli_query($connection,$query);
     confirmQuery($delete_user_query);
     header("Location: users.php");
     }
+    }
+
+
     //update status
+    if(isset($_GET['delete'])){
+        if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
+    
     if(isset($_GET['source'])){
         $new_role = $_GET['source'];
         $user_id = $_GET['u_id'];
@@ -76,4 +85,6 @@
         confirmQuery($change_role_query);
         header("Location: users.php");
         }
+    }
+}
 ?>                  

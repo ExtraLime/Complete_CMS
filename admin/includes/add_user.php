@@ -15,13 +15,20 @@ if(isset($_POST['create_user'])){
     
 
     $hashed_password = password_hash($password,PASSWORD_BCRYPT, array('cost'=> 10)); 
-    
+
     $query = "INSERT INTO users(username, user_password, user_first_name,
     user_last_name, user_email, user_role) ";
-    $query .= "VALUES ('{$username}', '{$hashed_password}', '{$user_first_name}', '{$user_last_name}', '{$user_email}', '{$user_role}') ";
     
-    $create_user_query = mysqli_query($connection,$query);
-    confirmQuery($create_user_query);
+    $stmt = mysqli_prepare($connection, $query."VALUES (?, ?, ?, ?, ?, ?)");
+        
+    if($stmt === FALSE){ die(mysqli_error($connection)); }
+       
+    mysqli_stmt_bind_param($stmt, 'ssssss', $username, $hashed_password, $user_first_name, $user_last_name, $user_email, $user_role);
+    
+    mysqli_stmt_execute($stmt); 
+    
+    mysqli_stmt_close($stmt);
+
     echo "<p class='bg-success'>User has been Created" . ' '. "<a href='users.php'>View Users</a></p>";
     
 } 
