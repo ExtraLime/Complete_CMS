@@ -14,7 +14,7 @@
                 if(isset($_GET['p_id'])){
                     
                     $get_post_id = $_GET['p_id'];
-                    $get_post_author = $_GET['author'];
+                    $get_post_author = $_GET['user'];
                     
                     
                 }
@@ -59,30 +59,37 @@
                 if(isset($_POST['create_comment'])){
                     
                     $get_post_id = $_GET['p_id'];
-                    $comment_author  = $_POST['comment_author'];
-                    $comment_email  = $_POST['comment_email'];
-                    $comment_content  = $_POST['comment_content'];
+                    $comment_author  = mysqli_real_escape_string($connection,$_POST['comment_author']);
+                    $comment_email  = mysqli_real_escape_string($connection,$_POST['comment_email']);
+                    $comment_content  = mysqli_real_escape_string($connection,$_POST['comment_content']);
                     
                     if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
 
-                
-                $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
-                $query .= "VALUES ('{$get_post_id}', '{$comment_author}', '{$comment_email}', '{$comment_content}', 'Denied', now()) ";
-                
-                $add_comment_query = mysqli_query($connection,$query);
-                if(!$add_comment_query){
-                    echo mysqli_error($connection);
-                }
-                
-                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-                    $query .="WHERE post_id = $get_post_id; ";
+                        $comment_date = time();
+                        $comment_status = 'denied';
+                        $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
+                        $query .= "VALUES (?,?,?,?,?,?) ";
+                        $stmt = mysqli_prepare($connection, $query);
+                        mysqli_stmt_bind_param($stmt,'issssi', $get_post_id, $comment_author, $comment_email,$comment_content,$comment_status, $comment_date);
+                        if($stmt === FALSE){ die(mysqli_error($connection)); }
+                        mysqli_stmt_execute($stmt);
+                        mysqli_stmt_close($stmt);   
                         
-                    $increment_post_query = mysqli_query($connection, $query);
-                    
-                    } else {
-                        echo "<script>alert('Fields cannot be empty')</script>";
-                    }                
-                }
+
+                        
+                            $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
+                            $query .="WHERE post_id=?; ";
+                                
+                            $stmt = mysqli_prepare($connection, $query);
+                            mysqli_stmt_bind_param($stmt,'i', $get_post_id);
+                            if($stmt === FALSE){ die(mysqli_error($connection)); }
+                            mysqli_stmt_execute($stmt);
+                            mysqli_stmt_close($stmt);   
+                            
+                            } else {
+                                echo "<script>alert('Fields cannot be empty')</script>";
+                            }                
+                        }
 
                 ?>
 

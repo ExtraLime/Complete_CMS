@@ -6,59 +6,44 @@ if(isset($_POST['submit'])){
     global $connection;
     $username = $_POST['username'];
     $user_password = $_POST['password'];
-    $user_email =  $_POST['email'];
-    
+    $user_email =  $_POST['email'];    
     
     if(!empty($username) && !empty($user_password) && !empty($user_email)){
     
     
     
-    $username = mysqli_real_escape_string($connection,$_POST['username']);
-    $user_password = mysqli_real_escape_string($connection,$_POST['password']);
-    $user_email = mysqli_real_escape_string($connection,$_POST['email']);
+        $username = mysqli_real_escape_string($connection,$_POST['username']);
+        $user_password = mysqli_real_escape_string($connection,$_POST['password']);
+        $user_email = mysqli_real_escape_string($connection,$_POST['email']);
 
-    
-
-
-    
-    $sql_u = "SELECT * FROM users WHERE username='$username'";
-  	$sql_e = "SELECT * FROM users WHERE user_email='$user_email'";
-  	$res_u = mysqli_query($connection, $sql_u);
-  	$res_e = mysqli_query($connection, $sql_e);
+        $sql_u = "SELECT * FROM users WHERE username='$username'";
+        $sql_e = "SELECT * FROM users WHERE user_email='$user_email'";
+        $res_u = mysqli_query($connection, $sql_u);
+        $res_e = mysqli_query($connection, $sql_e);
     
     
-  	if (mysqli_num_rows($res_u) > 0) {
-  	  $message =  "<p class='bg-danger'>Sorry... username already taken;</p>"; 	
-  	}else if(mysqli_num_rows($res_e) > 0){
-  	  $message = "<p class='bg-danger'>This email is already registered <a href='index.php'>Go Back</a></p>"; 		
-  	}else{
-
+        if (mysqli_num_rows($res_u) > 0) {
+        $message =  "<p class='bg-danger'>Sorry... username already taken;</p>"; 	
+        }else if(mysqli_num_rows($res_e) > 0){
+        $message = "<p class='bg-danger'>This email is already registered <a href='index.php'>Go Back</a></p>"; 		
+        }else{
+        $user_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
+        $user_role = 'subscriber';
+        $query = "INSERT INTO users (username, user_password, user_email, user_role) ";
+        $query .= "VALUES(?, ?, ?, ?) ";
     
-    $user_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
-    
-    $query = "INSERT INTO users (username, user_password, user_email, user_role) ";
-    $query .= "VALUES('{$username}', '{$user_password}', '{$user_email}', 'subscriber') ";
-    
-    $register_query = mysqli_query($connection,$query);
-    
-    if(!$register_query){
-        die('Query Failed' .' '. mysqli_error($connection) .' '. mysqli_errno($connection));
-    }else{
-        $message = "<p class='bg-success text-center'>Your account has been created. <a href='./index.php'>Login</a></p>";
-    }
-        
-           
-    
-    }
-    
-
-    
+        $stmt = mysqli_prepare($connection,$query);
+        if($stmt === FALSE){ die(mysqli_error($connection)); 
+        }else{
+            mysqli_stmt_bind_param($stmt,'ssss',$username, $user_password, $user_email, $user_role);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            $message = "<p class='bg-success text-center'>Your account has been created. <a href='./index.php'>Login</a></p>";
+            }
+        }    
     }else {
         $message = 'All fields are required';
     }
-    
-    
-    
 }
 
 
