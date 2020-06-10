@@ -25,7 +25,7 @@ $username = $_SESSION['username'];?>
                 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $username ?><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    <ul zIndex="-100000" class="dropdown-menu">
                         <li>
                             <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
@@ -61,7 +61,7 @@ $username = $_SESSION['username'];?>
                         </ul>
                     </li>
                     <li class="">
-                        <a href="./categories.php"><i class="fa fa-fw fa-file"></i> Categories</a>
+                        <a href="./categories.php"><i class="fa fa-fw fa-wrench"></i> Categories</a>
                     </li>
                     <li class="">
                         <a href="comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
@@ -78,7 +78,7 @@ $username = $_SESSION['username'];?>
                         </ul>
                     </li>
                      <li>
-                        <a href="profile.php"><i class="fa fa-fw fa-dashboard"></i> Profile </a>
+                        <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile </a>
                     </li>
                 </ul>
             </div>

@@ -60,14 +60,10 @@ if(isset($_POST['edit_user'])){
         $query = "UPDATE users SET username=?, user_password=?, user_first_name=?,
         user_last_name=?, user_email=?, user_role=? WHERE user_id=? ";
         
-        $stmt = mysqli_prepare($connection, $query);
-            
-        if($stmt === FALSE){ die(mysqli_error($connection)); }
-           
-        mysqli_stmt_bind_param($stmt, 'ssssssi', $username, $hashed_password, $user_first_name, $user_last_name, $user_email, $user_role, $user_id);
-        
-        mysqli_stmt_execute($stmt); 
-        
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'ssssssi', $username, $hashed_password, $user_first_name, $user_last_name, $user_email, $user_role, $user_id);        
+        mysqli_stmt_execute($stmt);        
         mysqli_stmt_close($stmt); 
 
         echo "<p class='bg-success'>The User was Updated. <a href='./users.php'>View Users</a></p>";

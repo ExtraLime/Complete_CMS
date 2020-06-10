@@ -5,19 +5,24 @@ if(isset($_POST['checkBoxArray'])){
         $bulk_options = $_POST['bulk'];
         switch($bulk_options){
                 case 'publish';
-                    $query = "UPDATE posts SET post_status = 'published' WHERE post_id = {$checkBoxValue}; ";
+                    $query = "UPDATE posts SET post_status = 'published' WHERE post_id=?; ";
                     $bulk_publish_query = mysqli_query($connection,$query);
-                if(!$bulk_publish_query){
-                    die("Query Failed" . mysqli_error($connection));
-                }
+                    $stmt = mysqli_prepare($connection, $query);            
+                    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                    mysqli_stmt_bind_param($stmt, 'i', $checkBoxValue);        
+                    mysqli_stmt_execute($stmt);        
+                    mysqli_stmt_close($stmt); 
                 break;
+
                 case 'draft';
-                    $query = "UPDATE posts SET post_status = 'draft' WHERE post_id = {$checkBoxValue}; ";
-                    $bulk_publish_query = mysqli_query($connection,$query);
-                if(!$bulk_publish_query){
-                    die("Query Failed" . mysqli_error($connection));
-                }
+                    $query = "UPDATE posts SET post_status = 'draft' WHERE post_id=?; ";
+                    $stmt = mysqli_prepare($connection, $query);            
+                    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                    mysqli_stmt_bind_param($stmt, 'i', $checkBoxValue);        
+                    mysqli_stmt_execute($stmt);        
+                    mysqli_stmt_close($stmt); 
                 break;
+
                 case 'delete';
                     $query = "DELETE FROM posts WHERE post_id = {$checkBoxValue}; ";
                     $bulk_publish_query = mysqli_query($connection,$query);
@@ -25,6 +30,7 @@ if(isset($_POST['checkBoxArray'])){
                     die("Query Failed" . mysqli_error($connection));
                 }
                 break;
+
                 case 'clone':
                     $query = "SELECT * FROM posts WHERE post_id = '{$checkBoxValue}' ";
                     $select_post_query = mysqli_query($connection, $query);
@@ -32,25 +38,32 @@ if(isset($_POST['checkBoxArray'])){
                     $post_title = $row['post_title'];
                     $post_category_id = $row['post_category_id'];
                     $post_date = $row['post_date'];
-                    $post_author = $row['post_author'];
+                    $post_user = $row['post_user'];
                     $post_status = $row['post_status'];
                     $post_image = $row['post_image'];
                     $post_tags = $row['post_tags'];
                     $post_comment_count = $row['post_comment_count'];
                     $post_content = $row['post_content'];
+
                     $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) ";
-                    $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_comment_count}', '{$post_status}') ";
+                    $query .= "VALUES(?, ?, ?, now(), ?, ?, ?, ?, ?) ";
                     }
-                    $copy_query = mysqli_query($connection, $query);
-                    if(!$copy_query) {
-                        die("QUERY FAILED"  . mysqli_error($connection));
-                    }
+                    $stmt = mysqli_prepare($connection, $query);            
+                    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                    mysqli_stmt_bind_param($stmt, 'isssssis', $post_category_id, $post_title, $post_user, $post_image, $post_content, $post_tags, $post_comment_count, $post_status);        
+                    mysqli_stmt_execute($stmt);        
+                    mysqli_stmt_close($stmt); 
                     break;
+
                     case 'reset_views':
                         
-                        $query = "UPDATE posts SET post_views = 0 WHERE post_id = '{$checkBoxValue}'; ";
-                        $reset_views_query = mysqli_query($connection,$query);
-                        confirmQuery($reset_views_query);
+                        $query = "UPDATE posts SET post_views = 0 WHERE post_id=?; ";
+                        $stmt = mysqli_prepare($connection, $query);            
+                        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                        mysqli_stmt_bind_param($stmt, 'i', $checkBoxValue);        
+                        mysqli_stmt_execute($stmt);        
+                        mysqli_stmt_close($stmt);
+
                         break;
 
                 default;
@@ -196,9 +209,12 @@ if(isset($_GET['delete'])){
 
 if(isset($_GET['reset_views'])){
     $reset_id = $_GET['reset_views'];
-    $query = "UPDATE posts SET post_views = 0 WHERE post_id =". mysqli_real_escape_string($connection,$reset_id); ;
-    $reset_views_query = mysqli_query($connection,$query);
-    confirmQuery($reset_views_query);
+    $query = "UPDATE posts SET post_views = 0 WHERE post_id=?; ";
+    $stmt = mysqli_prepare($connection, $query);            
+    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+    mysqli_stmt_bind_param($stmt, 'i', $reset_id);        
+    mysqli_stmt_execute($stmt);        
+    mysqli_stmt_close($stmt);
     header("Location: posts.php");
 }
 ?>                  

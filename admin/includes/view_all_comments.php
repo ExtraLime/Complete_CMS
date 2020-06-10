@@ -6,19 +6,22 @@ if(isset($_POST['checkBoxArray'])){
         $bulk_options = $_POST['bulk'];
         switch($bulk_options){
                 case 'approved';
-                    $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = {$checkBoxValue}; ";
-                    $bulk_publish_query = mysqli_query($connection,$query);
-                if(!$bulk_publish_query){
-                    die("Query Failed" . mysqli_error($connection));
-                }
+                    $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id=?; ";
+                    $stmt = mysqli_prepare($connection, $query);            
+                    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                    mysqli_stmt_bind_param($stmt, 'i', $checkBoxValue);        
+                    mysqli_stmt_execute($stmt);        
+                    mysqli_stmt_close($stmt); 
                 break;
                 case 'denied';
-                    $query = "UPDATE comments SET comment_status = 'denied' WHERE comment_id = {$checkBoxValue}; ";
-                    $bulk_publish_query = mysqli_query($connection,$query);
-                if(!$bulk_publish_query){
-                    die("Query Failed" . mysqli_error($connection));
-                }
+                    $query = "UPDATE comments SET comment_status = 'denied' WHERE comment_id=?; ";
+                    $stmt = mysqli_prepare($connection, $query);            
+                    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+                    mysqli_stmt_bind_param($stmt, 'i', $checkBoxValue);        
+                    mysqli_stmt_execute($stmt);        
+                    mysqli_stmt_close($stmt); 
                 break;
+                
                 case 'delete';
                     $query = "DELETE FROM comments WHERE comment_id = {$checkBoxValue}; ";
                     $bulk_publish_query = mysqli_query($connection,$query);
@@ -136,10 +139,13 @@ if(isset($_POST['checkBoxArray'])){
         $comment_id = $_GET['c_id'];
         
         $query = "UPDATE comments SET ";
-        $query .= "comment_status = '{$comment_status}' ";
-        $query .="WHERE comment_id = '{$comment_id}'; ";
-        $update_comment_status_query = mysqli_query($connection, $query);
-        confirmQuery($update_comment_status_query);
+        $query .= "comment_status=? ";
+        $query .="WHERE comment_id =? ; ";
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'si', $comment_status, $comment_id);        
+        mysqli_stmt_execute($stmt);        
+        mysqli_stmt_close($stmt); 
         header("Location: comments.php");
         }
 ?>                  

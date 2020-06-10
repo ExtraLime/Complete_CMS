@@ -7,9 +7,7 @@
                                    <th>Last Name</th>
                                    <th>E-Mail</th>
                                    <th>Role</th>
-                                   <th>Date</th>
-                                   
-                                                                
+                                   <th>Date</th>                             
                                </tr>
                            </thead>
                        
@@ -70,21 +68,28 @@
     }
 
 
-    //update status
-    if(isset($_GET['delete'])){
-        if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
-    
+    //delete     
     if(isset($_GET['source'])){
+        if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
         $new_role = $_GET['source'];
         $user_id = $_GET['u_id'];
+        echo $new_role;
+        echo $user_id;
+        // $query = "UPDATE users SET ";
+        // $query .= "user_role = '{$new_role}' ";
+        // $query .="WHERE user_id = '{$user_id}'; ";
+        // $change_role_query = mysqli_query($connection, $query);
+        // confirmQuery($change_role_query);
+
+        $query = "UPDATE users SET user_role=? WHERE user_id=? ";
         
-        $query = "UPDATE users SET ";
-        $query .= "user_role = '{$new_role}' ";
-        $query .="WHERE user_id = '{$user_id}'; ";
-        $change_role_query = mysqli_query($connection, $query);
-        confirmQuery($change_role_query);
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'si', $new_role, $user_id);        
+        mysqli_stmt_execute($stmt);        
+        mysqli_stmt_close($stmt);
         header("Location: users.php");
         }
     }
-}
+
 ?>                  

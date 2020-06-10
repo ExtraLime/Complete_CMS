@@ -26,14 +26,16 @@
         <?php }}?>
         <?php
           if(isset($_POST['update_category'])){
-          $cat_title_update = $_POST['cat_title'];
+          $cat_title_update = mysqli_real_escape_string($connection,$_POST['cat_title']);
            $query = "UPDATE categories SET cat_type = '{$cat_title_update}' WHERE cat_id = {$cat_id} ";
 
-           $update_query = mysqli_query($connection,$query);
-            if(!$update_query){
-                die( "Query Failed" . mysqli_error($connection));
-            }
+            $stmt = mysqli_prepare($connection, "UPDATE categories SET cat_type=? WHERE cat_id=?");
+           
+            if($stmt === FALSE){ die(mysqli_error($connection)); }
+            mysqli_stmt_bind_param($stmt, 'si', $cat_title_update, $cat_id);
+            mysqli_stmt_execute($stmt);
           }
+          
        ?>
 
    </div>

@@ -23,21 +23,11 @@ if(isset($_POST['create_post'])){
         $stmt = mysqli_prepare($connection, "INSERT INTO posts (post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if($stmt === FALSE){ die(mysqli_error($connection)); }
         mysqli_stmt_bind_param($stmt, 'issssssis', $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_comment_count, $post_status);
-        mysqli_stmt_execute($stmt);     
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
     $post_id = mysqli_insert_id($connection);
     echo "<p class='bg-success'>The Post was created. <a href='../post.php?p_id=$post_id'>View Post</a> or <a href='posts.php'>View Another Post</a></p>";
-
-
-/* execute prepared statement */
-   
-
-/* close statement and connection */
-mysqli_stmt_close($stmt);
-
-
-
-
-
 }
 
 ?>

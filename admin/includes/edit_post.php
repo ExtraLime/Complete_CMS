@@ -42,21 +42,13 @@ if(isset($_POST['update_post'])){
                 $post_image= $row['post_image'];
             }
         }
-    
-        $query = "UPDATE posts SET ";
-        $query .="post_title = '{$post_title}', ";
-        $query .="post_category_id = '{$post_category_id}', ";
-        $query .="post_date = now(), ";
-        $query .="post_user = '{$post_user}', ";
-        $query .="post_status = '{$post_status}', ";
-        $query .="post_content = '{$post_content}', ";
-        $query .="post_image = '{$post_image}', ";
-        $query .="post_tags = '{$post_tags}' ";
-        $query .="WHERE post_id = '{$the_post_id}' ";
 
-        $edit_post_query = mysqli_query($connection,$query);
-    
-        confirmQuery($edit_post_query);
+        $stmt = mysqli_prepare($connection, "UPDATE posts SET post_category_id=?, post_title=?, post_user=?, post_date=?, post_image=?, post_content=?, post_tags=?, post_comment_count=?, post_status=? WHERE post_id=?");
+        if($stmt === FALSE){ die(mysqli_error($connection)); }
+        mysqli_stmt_bind_param($stmt, 'issssssisi', $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_comment_count, $post_status, $post_id);
+        mysqli_stmt_execute($stmt); 
+
+
         echo "<p class='bg-success'>The Post was updated. <a href='../post.php?p_id=$the_post_id'>View Post</a> or <a href='posts.php'>Edit Another Post</a></p>";
 }
 
