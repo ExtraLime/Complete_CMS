@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                          <h1 class="page-header">
-                            Welcome to the Admin Page
-                            <small>Author</small>
+                            Posts Page
+                            
                             </h1>
 
                               <?php 

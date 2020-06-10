@@ -10,17 +10,17 @@ function confirmQuery($result){
 function insert_categories(){
         global $connection;
         if(isset($_POST['submit'])){
-        $cat_title = $_POST['cat_title'];
+        $cat_title = mysqli_real_escape_string($connection,$_POST['cat_title']);
        if($cat_title == "" || empty($cat_title)){
            echo "You Didn't Submit Anything.";
        }else{
-           $query = "INSERT INTO categories(cat_type) ";
-           $query .= "VALUE ('$cat_title') ";
-
+           $query = "INSERT INTO categories(cat_type) VALUE (?); ";
+           $stmt = mysqli_prepare($connection, $query);            
+           if($stmt === FALSE){ die(mysqli_error($connection)); }           
+           mysqli_stmt_bind_param($stmt, 's', $cat_title);        
+           mysqli_stmt_execute($stmt);        
+           mysqli_stmt_close($stmt); 
            $create_category_query = mysqli_query($connection, $query);
-           if(!$create_category_query){
-               die( "Query Failed".mysqli_error($connection));
-           }
        }
     }    
 }
@@ -48,10 +48,13 @@ function deleteRow(){
    
     if(isset($_GET['delete'])){
     global $connection;
-    $cat_id_delete = $_GET['delete'];
-    $query = "DELETE FROM categories WHERE cat_id = {$cat_id_delete} ";
-
-    $delete_query = mysqli_query($connection,$query);
+    $cat_id_delete = mysqli_real_escape_string($connection, $_GET['delete']);
+    $query = "DELETE FROM categories WHERE cat_id=?; ";
+    $stmt = mysqli_prepare($connection, $query);            
+    if($stmt === FALSE){ die(mysqli_error($connection)); }           
+    mysqli_stmt_bind_param($stmt, 'i', $cat_id_delete);        
+    mysqli_stmt_execute($stmt);        
+    mysqli_stmt_close($stmt); 
     header("Location: categories.php");
 }
 }
@@ -74,10 +77,20 @@ function online_count(){
     $count = mysqli_num_rows($send_query);
 
     if($count == null){
-        mysqli_query($connection,"INSERT INTO users_online(session, time) VALUES('$session', $time); ");
+        $query = "INSERT INTO users_online(session, time) VALUES(?, ?); ";
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'ii', $session, $time);        
+        mysqli_stmt_execute($stmt);      
     }else{
-        mysqli_query($connection,"UPDATE users_online SET time = '$time' WHERE session = '$session'; ");
-    }
+        $query = "UPDATE users_online SET time=? WHERE session=?; ";
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'ii', $time, $session);        
+        mysqli_stmt_execute($stmt);    
+
+    }  
+    
     $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > $time_out; ");
     echo $user_count = mysqli_num_rows($users_online_query);
 }//get request isset()

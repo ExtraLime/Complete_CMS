@@ -161,12 +161,8 @@
                          for($i=0;$i < sizeof($element_text); $i++){
                              echo "['{$element_text[$i]}'".","."{$element_count[$i]}],";
                          }
-                         
-            
-            
+
             ?>
-
-
         ]);
 
         var options = {

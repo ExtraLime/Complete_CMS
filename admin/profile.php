@@ -26,32 +26,22 @@
         $user_email = $_POST['user_email'];
         $user_password = $_POST['password'];
        
-        $query = 'SELECT randSalt FROM users';
-        $salt_query = mysqli_query($connection, $query);
-        if(!$salt_query){
-            die("Query Failed" . mysqli_error($connection));
+        if (empty($user_password)){
+            $hashed_password = $db_user_password;
+        }else {
+            $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));   
         }
-        $row = mysqli_fetch_array($salt_query);
-        $salt = $row['randSalt'];    
-        $hashed_password = crypt($user_password, $salt);          
        
        
        
-       $query = "UPDATE users SET ";
-       $query .= "username = '{$username}', ";
-       $query .= "user_password = '{$hashed_password}', ";
-       $query .= "user_first_name = '{$user_first_name}', ";
-       $query .= "user_last_name = '{$user_last_name}', ";       
-       $query .= "user_email = '{$user_email}', ";
-       $query .= "WHERE user_id = '{$user_id}' ";
+        $query = "UPDATE users SET username=?, user_password=?, user_first_name=?,
+        user_last_name=?, user_email=? WHERE user_id=? ";
        
-       $update_profile_query = mysqli_query($connection, $query);
-       
-       if(!$update_profile_query){
-           die("QUERY FAILED". " " . mysqli_error($connection));
-       }else{
-           header('Location: profile.php');
-       }
+        $stmt = mysqli_prepare($connection, $query);            
+        if($stmt === FALSE){ die(mysqli_error($connection)); }           
+        mysqli_stmt_bind_param($stmt, 'sssssi', $username, $hashed_password, $user_first_name, $user_last_name, $user_email, $user_id);        
+        mysqli_stmt_execute($stmt);        
+        mysqli_stmt_close($stmt); 
        
         }
     

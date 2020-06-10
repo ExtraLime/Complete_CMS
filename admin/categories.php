@@ -22,7 +22,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Welcome to the Admin Page
-                            <small>Author</small></h1>
+                            </h1>
                         <div class="col-xs-6"> 
                         <?php insert_categories();?>
     
