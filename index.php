@@ -9,6 +9,12 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
+                $query = "SELECT * FROM users; ";
+                $result = pg_prepare($connection, "credentials", $query);
+                $result = pg_execute($connection, "credentials", array($username));
+
+                print_r(pg_fetch_array($result));
+
                 $per_page = 5;
                 $query_count = mysqli_num_rows(mysqli_query($connection,"SELECT * FROM posts"));
                 $count = ceil($query_count/$per_page);
