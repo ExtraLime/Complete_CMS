@@ -43,19 +43,19 @@
 //}
     
 
-    $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
+//     $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
 
-if(password_verify($user_password,$db_user_password)){
-        $_SESSION['username'] = $db_username;
-        $_SESSION['firstname'] = $db_user_first_name;
-        $_SESSION['lastname'] = $db_user_last_name;
-        $_SESSION['user_role'] = $db_user_role;
+// if(password_verify($user_password,$db_user_password)){
+//         $_SESSION['username'] = $db_username;
+//         $_SESSION['firstname'] = $db_user_first_name;
+//         $_SESSION['lastname'] = $db_user_last_name;
+//         $_SESSION['user_role'] = $db_user_role;
         
-        header("Location: ../admin");
-    }else{
-        echo "Login Failed";
-        header("Location: ../index.php");
-    }
+//         header("Location: ../admin");
+//     }else{
+//         echo "Login Failed";
+//         header("Location: ../index.php");
+//     }
     
     
     
