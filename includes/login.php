@@ -18,7 +18,7 @@
 
     if(!$result){
         die("QUERY FAILED!".pg_error($connection));
-    }
+    }else{
     
     while($row = pg_fetch_array($result)){
         
@@ -34,13 +34,13 @@
             
     }
     
-//if ($username !== $db_username && $user_password !== $db_password){
-//    header("Location: ../index.php");
-//} else if($username !== $db_username && $user_password !== $db_password){
-//    header("Location: ../admin");
-//}else {
-//    header("Location: ../index.php");
-//}
+if ($username !== $db_username && $user_password !== $db_password){
+   header("Location: ../index.php");
+} else if($username !== $db_username && $user_password !== $db_password){
+   header("Location: ../admin");
+}else {
+   header("Location: ../index.php");
+}
     
 
 //     $hashed_password = password_hash($user_password,PASSWORD_BCRYPT, array('cost'=> 10));
@@ -62,7 +62,7 @@
 } 
 
 
-
+}
 
 
 
