@@ -1,23 +1,21 @@
 <?php 
 
-$db['db_host'] = "localhost";
-$db['db_user'] = 'root';
-$db['db_pass'] = '';
-$db['db_name'] = 'cms';
 
-foreach($db as $key => $value){
-    define(strtoupper($key),$value);
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$db = substr($url["path"], 1);
+
+$connection = new mysqli($server, $username, $password, $db);
+
+
+
+if($connection){
+   echo "We are Connected";
+}else {
+   echo "DB Connection Failed!";
 }
-
-$conn = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
-
-$connection = pg_connect(getenv("DATABASE_URL"));
-
-
-//if($connection){
-//    echo "We are Connected";
-//}else {
-//    echo "DB Connection Failed!";
-//}
 
 ?>
