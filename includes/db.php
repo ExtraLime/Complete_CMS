@@ -8,10 +8,8 @@ $password = $url["pass"];
 $db = substr($url["path"], 1);
 
 $connection = new mysqli($server, $username, $password, $db);
-if($connection){
-   echo "We are Connected";
-}else {
-   echo "DB Connection Failed!";
+if(!$connection){
+    echo "DB Connection Failed!";
 }
 
 ?>
