@@ -9,11 +9,6 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
-                $query = "SELECT * FROM users; ";
-                $result = pg_prepare($connection, "credentials", $query);
-                $result = pg_execute($connection, "credentials", array($username));
-
-                print_r(pg_fetch_array($result));
 
                 $per_page = 5;
                 $query_count = mysqli_num_rows(mysqli_query($connection,"SELECT * FROM posts"));
@@ -48,11 +43,7 @@
                         
 
                         ?>
-            
-                        <h1 class="page-header">
-                            Page Heading
-                            <small>Secondary Text</small>
-                        </h1>
+
 
                         <!-- First Blog Post -->
                         <h2>
@@ -67,7 +58,7 @@
                         <img  class="img-responsive" src="images/<?php echo $post_image?>" alt=""></a>
                         <hr>
                         <p><?php echo $post_content?>...</p>
-
+                        <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                         <hr>
                 <?php  }}?>
