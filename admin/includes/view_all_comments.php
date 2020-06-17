@@ -1,4 +1,5 @@
                        
+<?php include "delete_modal.php"?>
 <?php
 
 if(isset($_POST['checkBoxArray'])){
@@ -110,29 +111,31 @@ if(isset($_POST['checkBoxArray'])){
 
             echo "<td>$comment_date</td>";
             echo "<td><a href='comments.php?source=approved&c_id=$comment_id'>Approve</a></td>";
-            echo "<td><a href='comments.php?source=denied&c_id=$comment_id'>Deny</a></td>";
-            echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";
+            echo "<td><a href='comments.php?source=denied&c_id=$comment_id'>Deny</a></td>";?>
+            <!-- <?php//echo "<td><a rel='$comment_id' href='javascript:void(0)' class='delete_link'>Delete</a></td>";?> -->
+            <form action="" method='post'>
+                <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
+                <?php echo "<td><input rel='$comment_id' class='btn btn-danger' type='submit' value='Delete' name='delete'></td>"; ?>
+            </form><?php
+//          echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";
             echo "</tr>";
-        
-            
         }
-
                            ?>
-
                        </tbody>
                        </table>
-
     <?php
     //delete comment query
-    if(isset($_GET['delete'])){
+    if(isset($_POST['delete'])){
  
-    $delete_id = $_GET['delete'];
+    $delete_id = $_POST['comment_id'];
 
-    $query = "DELETE FROM comments WHERE comment_id = '{$comment_id}' ";
+    $query = "DELETE FROM comments WHERE comment_id = '{$delete_id}' ";
     $delete_comment_query = mysqli_query($connection,$query);
     confirmQuery($delete_comment_query);
     header("Location: comments.php");
     }
+
+
     //update status
     if(isset($_GET['source'])){
         $comment_status = $_GET['source'];
@@ -149,3 +152,18 @@ if(isset($_POST['checkBoxArray'])){
         header("Location: comments.php");
         }
 ?>                  
+<script>'comments.php?delete=$comment_id'
+
+$(document).ready(function(){
+    $(".delete_link").on("click", function(){
+        let id = $(this).attr("rel");
+        let delete_url = `comments.php?delete=${id}`;
+
+        $(".modal_delete_link").attr("href", delete_url);
+
+        $("#myModal").modal('show');
+    });
+});
+
+
+</script> 

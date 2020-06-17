@@ -6,12 +6,13 @@ if(isset($_POST['create_post'])){
         $post_title = $_POST['title'];
         $post_user = $_POST['post_user'];
         $post_category_id = $_POST['post_category'];
-        $post_status = $_POST['post_status'];
-
-    
+        $post_status = $_POST['post_status'];    
         $post_image = $_FILES['post_image']['name'];
         $post_image_temp = $_FILES['post_image']["tmp_name"];
         $post_tags = $_POST['tags'];
+        if($post_tags == ''){
+            $post_tags = 'No Tags';
+        }
         $post_content = $_POST['content'];
         $post_date = date('y-m-d');        
         $post_comment_count = 0;
@@ -59,7 +60,7 @@ if(isset($_POST['create_post'])){
     </div>
 
     <div class="form-group">
-      <label for="post_author">Author</label>
+      <label for="post_user">User</label>
     <select name="post_user" id="post_user">
         <?php
         
@@ -79,14 +80,6 @@ if(isset($_POST['create_post'])){
     </select>   
     </div>
     
-    
-    
-    
-    
-    <!-- <div class="form-group">
-        <label for="author">Post Author</label>
-        <input name='author' class='form-control' type="text">    
-    </div> -->
     
 <div class="form-group">
    <label for="post_status">Post Status</label>

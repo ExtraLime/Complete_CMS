@@ -1,3 +1,4 @@
+
 <?php
 $username = $_SESSION['username'];?>
         <!-- Navigation -->
@@ -16,7 +17,7 @@ $username = $_SESSION['username'];?>
                
                  <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <!-- <li><a href="" class="">Users Online: <?php echo online_count() ?></a></li> -->
+                <!-- <li><a href="" class="">Users Online: <?php echo users_online() ?></a></li> -->
                 <li><a href="" class="">Users Online: <span class="usersonline"></span></a></li>
 
                 <li><a href="../index.php" class="">Back To Home</a></li>

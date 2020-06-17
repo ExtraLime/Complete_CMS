@@ -1,4 +1,13 @@
 <?php include "includes/admin_header.php"?>
+<!--<?php// include "functions.php"?> -->
+
+
+<?php
+    if(!is_admin($_SESSION['username'])){
+        header("Location: index.php");
+    }
+
+?>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

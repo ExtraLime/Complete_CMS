@@ -19,10 +19,11 @@ if(isset($_POST['submit'])){
     global $connection;
     $to         = 'willdox7@yahoo.com';
     $subject    = $_POST['subject'];
-    $body       =  $_POST['body'];   
+    $body       = $_POST['body'];
+    $header     = "From: ".$_POST['email'];    
     
     $msg = wordwrap($body, 70);
-    mail($to,$subject,$msg);
+    mail($to,$subject,$msg, $header);
 
 }
 ?>

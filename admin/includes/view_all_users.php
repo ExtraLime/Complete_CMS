@@ -1,3 +1,5 @@
+    <?php include "delete_modal.php"?>
+    
                        <table class='table table-bordered table-hover'>
                            <thead>
                                <tr>
@@ -39,11 +41,16 @@
             echo "<td></td>";
             echo "<td><a href='users.php?source=admin&u_id={$user_id}'>Make Admin</a></td>";
             echo "<td><a href='users.php?source=subscriber&u_id={$user_id}'>Make Subscriber</a></td>";
-            echo "<td><a href='users.php?delete={$user_id}'>Delete</a></td>";
-            echo "<td><a href='users.php?source=edit_user&u_id={$user_id}'>Edit</a></td>";
-            echo "</tr>";
-        
+            ?>
+            <form action="" method='post'>
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                <?php echo "<td><input rel='$user_id' class='btn btn-danger' type='submit' value='Delete' name='delete'></td>"; ?>
+            </form>
+            <?php
             
+            //echo "<td><a rel='$user_id' href='javascript:void(0)' class='delete_link'>Delete</a></td>";
+            echo "<td><a class='btn btn-info' href='users.php?source=edit_user&u_id={$user_id}'>Edit</a></td>";
+            echo "</tr>";
         }
 
                            ?>
@@ -53,12 +60,10 @@
 
     <?php
     //delete comment query
-    if(isset($_GET['delete'])){
+    if(isset($_POST['delete'])){
         if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
 
-
- 
-    $delete_id = mysqli_real_escape_string($_GET['delete']);
+    $delete_id = $_POST['user_id'];
 
     $query = "DELETE FROM users WHERE user_id = '{$delete_id}' ";
     $delete_user_query = mysqli_query($connection,$query);
@@ -68,18 +73,13 @@
     }
 
 
-    //delete     
+    //edit user   
     if(isset($_GET['source'])){
         if(isset($_SESSION['user_role'])&&($_SESSION['user_role'] == 'admin')){
         $new_role = $_GET['source'];
         $user_id = $_GET['u_id'];
         echo $new_role;
         echo $user_id;
-        // $query = "UPDATE users SET ";
-        // $query .= "user_role = '{$new_role}' ";
-        // $query .="WHERE user_id = '{$user_id}'; ";
-        // $change_role_query = mysqli_query($connection, $query);
-        // confirmQuery($change_role_query);
 
         $query = "UPDATE users SET user_role=? WHERE user_id=? ";
         
@@ -93,3 +93,18 @@
     }
 
 ?>                  
+<script>
+
+$(document).ready(function(){
+    $(".delete_link").on("click", function(){
+        let id = $(this).attr("rel");
+        let delete_url = `users.php?delete=${id}`;
+
+        $(".modal_delete_link").attr("href", delete_url);
+
+        $("#myModal").modal('show');
+    });
+});
+
+
+</script>       

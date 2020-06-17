@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <?php require_once "db.php"?>
                
 <?php session_start(); ?>
@@ -6,7 +7,7 @@
         $_SESSION['firstname'] = null;
         $_SESSION['lastname'] = null;
         $_SESSION['user_role'] = null;
-header("Location: ../index.php");
+header("Location: /cms/");
 
 
 ?>
