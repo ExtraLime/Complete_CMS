@@ -404,7 +404,7 @@ function register_user($username, $email, $password){
 
 
 
-             header("Location: /cms/admin/");
+             header("Location: /admin/");
 
 
          } else {
