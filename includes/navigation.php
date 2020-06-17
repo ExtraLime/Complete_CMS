@@ -56,7 +56,7 @@
                             echo "<li><a href='admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
                             }
                     }else{
-                        echo '<li><a href="/login">Login</a></li>';
+                        echo '<li><a href="/login.php">Login</a></li>';
                         echo "<li class='$registration_class'><a href='/registration'>Register</a></li>";
                         echo "<li class='$contact_class'><a href='/contact'>Contact</a></li>";                        
                      } ?>                   
