@@ -1,2 +1,10 @@
 {
+    "name": "extralime/cms",
+    "description": "mailersystem",
+    "require-dev": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    }
 }

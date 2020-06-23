@@ -36,14 +36,15 @@
                         <input name="password" type="password" class="form-control" placeholder="Enter Password">
                         <span class='input-group-btn'>
                             <button class='btn btn-primary' name='login' type='submit'>Log In</button>
-                        </span>
-
+                        </span>                   
                     </div>
+                    <div class="form-group"><a href="forgot.php?forgot=<?php echo uniqid(true) ?>">Forgot Password?</a></div>
                     </form>
                     <!-- /.input-group -->
+                    <?php endif;?>    
                 </div>
 
-                <?php endif;?>     
+ 
 
                           <!-- Blog Categories Well -->
                 <div class="well">

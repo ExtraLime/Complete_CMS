@@ -1,5 +1,14 @@
 <?php
 
+function imagePlaceholder($image = ''){
+    if(!$image){
+        return "https://via.placeholder.com/150";
+    }else
+    {
+        return "/cms/images/".$image;
+    }
+}
+
 function redirect($location){
 
 
@@ -213,7 +222,7 @@ global $connection;
 
     while($row = mysqli_fetch_assoc($select_categories)) {
     $cat_id = $row['cat_id'];
-    $cat_title = $row['cat_title'];
+    $cat_title = $row['cat_type'];
 
     echo "<tr>";
         
@@ -404,7 +413,7 @@ function register_user($username, $email, $password){
 
 
 
-             header("Location: /admin/");
+             header("Location: /cms/admin/");
 
 
          } else {

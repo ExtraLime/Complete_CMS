@@ -1,5 +1,7 @@
 <?php require_once 'includes/header.php';?>
 <?php require_once 'includes/navigation.php';?>
+<?php require_once "admin/functions.php"?>   
+
 
     <!-- Page Content -->
     <div class="container">
@@ -51,11 +53,16 @@
                         </p>
                         <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date?></p>
                         <hr>
-                        <img class="img-responsive" src="/cms/images/<?php echo $post_image?>" alt="">
+                        <img class="img-responsive" src="<?php echo imagePlaceholder($post_image)?>" alt="">
                         <hr>
                         <p><?php echo $post_content?></p>
-                        <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
+                        <div class="row">
+                            <p class="like pull-right"><a class="like" href="#"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
+                        </div>
+                        <div class="row">
+                            <p class="pull-right">Likes: 10</p>
+                        </div>
+                        <div class="clearfit"></div>
                         <hr>
                 <?php }
             
@@ -168,3 +175,17 @@
 </div>
         <hr>
 <?php include 'includes/footer.php'?>
+
+
+    <script>
+
+$(document).ready(function(){
+    $(".like").on("click", function(){
+        alert('It works')
+
+    });
+});
+
+
+</script>       
+

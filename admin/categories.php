@@ -63,7 +63,7 @@
                            <tbody>                           
                                 <?php findAllCategories();?>
                                   
-                                <?php deleteRow();//Delete Query?>                       
+                                <?php deleteCategories();//Delete Query?>                       
 
                            </tbody>                           
                            

@@ -6,7 +6,6 @@
 
 		//checkIfUserIsLoggedInAndRedirect('/cms/admin/');
 
-
 		if(isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == 'POST'){
 
 			if(isset($_POST['username']) && isset($_POST['password'])){
@@ -22,11 +21,11 @@
 
 		}
 
-
-
-
-
-
+	if(isset($_GET['reset'])){
+	   $msg =  "<p class='bg-success text-center'>Your Password has been reset!</p>";
+	}else{
+	   $msg = "";
+	}
 ?>
 
 
@@ -50,6 +49,7 @@
 
 							<h3><i class="fa fa-user fa-4x"></i></h3>
 							<h2 class="text-center">Login</h2>
+							<?php echo $msg ?>
 							<div class="panel-body">
 
 
