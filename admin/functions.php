@@ -443,7 +443,7 @@ function register_user($username, $email, $password){
 
 
 
-             header("Location: /admin/");
+             header("Location: /admin/index.php");
 
 
          } else {
