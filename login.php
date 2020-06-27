@@ -16,7 +16,7 @@
 			}else {
 
 
-				redirect('login.php');
+				redirect('/login.php');
 			}
 
 		}

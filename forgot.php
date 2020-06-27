@@ -121,7 +121,7 @@ require './Classes/config.php';
 
 
                                 <h2>Please check your email</h2>
-                                <a href="login.php">Back to Login</a>
+                                <a href="/login.php">Back to Login</a>
 
 
                             <?php endif; ?>

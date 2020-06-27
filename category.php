@@ -82,27 +82,27 @@
         if ($count > 0){
             if($page > 2){
                 $back = $page - 2;
-                echo "<li><a href='index.php?page=$back>Back</a></li>";
+                echo "<li><a href='/index.php?page=$back>Back</a></li>";
                 for($i = $page-2; $i<= $page+2; $i++) {
                     if($i == $page){
-                        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                        echo "<li><a class='active_link' href='/index.php?page={$i}'>{$i}</a></li>"; 
                     }else{
-                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                    echo "<li><a href='/index.php?page={$i}'>{$i}</a></li>";
                     }
                 }
             }else{
                 for($i = 1; $i<= 3; $i++) {
                     if($i == $page){
-                        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                        echo "<li><a class='active_link' href='/index.php?page={$i}'>{$i}</a></li>"; 
                     }else{
-                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                    echo "<li><a href='/index.php?page={$i}'>{$i}</a></li>";
                     }
                 }
             }
         
         ?>
 
-            <li><a href='index.php?page=<?php echo parseInt($page)+1?>'>Next</a></li>
+            <li><a href='/index.php?page=<?php echo parseInt($page)+1?>'>Next</a></li>
             <?php } ?>
         </ul>
 
