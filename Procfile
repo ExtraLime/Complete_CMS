@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-apache2 web/ -C Complete_CMS/rewrite.conf
+web: vendor/bin/heroku-php-apache2 Complete_CMS/ -C rewrite.conf
