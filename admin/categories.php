@@ -1,4 +1,4 @@
-<?php include "/includes/admin_header.php"?>
+<?php include "includes/admin_header.php"?>
 
 
     <!-- Bootstrap Core CSS -->
@@ -11,7 +11,7 @@
 
     <div id="wrapper">
         <!--Navigation-->
-        <?php include "/includes/admin_navigation.php"?>
+        <?php include "includes/admin_navigation.php"?>
        
         <div id="page-wrapper">
 
@@ -45,7 +45,7 @@
                             
                             if(isset($_GET['edit'])){
                                 $cat_id = $_GET['edit'];
-                                include "/includes/update_categories.php";
+                                include "includes/update_categories.php";
                             }                                        
                             ?>
                          <!-- end php for update-->                                            
@@ -86,4 +86,4 @@
 
 
 
-<?php include '/includes/admin_footer.php'?>
+<?php include 'includes/admin_footer.php'?>
