@@ -2,6 +2,54 @@
 <?php require_once 'includes/navigation.php';?>
 <?php require_once "admin/functions.php"?>   
 
+<?php 
+if(isset($_POST['liked'])){
+    //select the post
+    $user_id = $_POST['user_id'];
+    $post_id = $_POST['post_id'];
+
+    $searchPost = "SELECT * FROM posts WHERE post_id=$post_id";
+    $postResult = mysqli_fetch_array(mysqli_query($connection, $searchPost));
+    if (!$postResult){die(mysqli_error($connection));}
+    $likes = $postResult['post_likes'];
+
+    // update post with likes
+    $likePost = "UPDATE posts SET post_likes=$likes+1 WHERE post_id=$post_id";
+    $likeResult = mysqli_query($connection, $likePost);
+    if (!$likeResult){die(mysqli_error($connection));}
+    //insert data create likes
+    $query = "INSERT INTO likes(post_id, user_id) VALUES($post_id, $user_id)";
+
+    $result = mysqli_query($connection, $query);
+    if($result === FALSE){ die(mysqli_error($connection)); }
+    exit();
+
+}
+
+
+if(isset($_POST['unliked'])){
+    //select the post
+
+    $user_id = $_POST['user_id'];
+    $post_id = $_POST['post_id'];
+
+    $searchPost = "SELECT * FROM posts WHERE post_id=$post_id";
+    $postResult = mysqli_fetch_array(mysqli_query($connection, $searchPost));
+    if (!$postResult){die(mysqli_error($connection));}
+    $likes = $postResult['post_likes'];
+
+    // delete like  from likes
+    $stmt = mysqli_query($connection, "DELETE FROM likes WHERE post_id=$post_id AND user_id=$user_id; ");
+    if($stmt === FALSE){ die(mysqli_error($connection)); }
+    //insert data create likes
+    $unlikePost = "UPDATE posts SET post_likes=$likes-1 WHERE post_id=$post_id";
+    $unlikeResult = mysqli_query($connection, $unlikePost);
+    if (!$unlikeResult){die(mysqli_error($connection));}
+    exit();
+
+}
+?>
+
 
     <!-- Page Content -->
     <div class="container">
@@ -11,7 +59,6 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
-                
                 
                 if(isset($_GET['p_id'])){
                     
@@ -56,11 +103,30 @@
                         <img class="img-responsive" src="<?php echo imagePlaceholder($post_image)?>" alt="">
                         <hr>
                         <p><?php echo $post_content?></p>
+
+                        <?php if(isLoggedIn()){ ?>
+                            <div class="row">
+                                <p class="pull-right"><a
+                                    class="<?php echo userLikedThisPost($the_post_id) ? 'unlike' : 'like'; ?>"
+                                    href=""><span class="glyphicon glyphicon-thumbs-up"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="<?php echo userLikedThisPost($the_post_id) ? ' I liked this before' : 'Want to like it?'; ?>"
+                                ></span>
+                                <?php echo userLikedThisPost($the_post_id) ? ' Unlike' : ' Like'; ?>
+                            </a></p>
+                            </div>
+
+
+                    <?php  } else { ?>
+
+                            <div class="row">
+                                <p class="pull-right login-to-post">You need to <a href="/cms/login.php">Login</a> to like </p>
+                            </div>          
+                    <?php }?>
+
                         <div class="row">
-                            <p class="like pull-right"><a class="like" href="#"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-                        </div>
-                        <div class="row">
-                            <p class="pull-right">Likes: 10</p>
+                            <p class="pull-right"><?php getPostlikes($get_post_id)?> likes</p>
                         </div>
                         <div class="clearfit"></div>
                         <hr>
@@ -175,16 +241,47 @@
 </div>
         <hr>
 <?php include 'includes/footer.php'?>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 
-    <script>
+
+<script>
+
 
 $(document).ready(function(){
-    $(".like").on("click", function(){
-        alert('It works')
+    let post_id = <?php echo $get_post_id;?>;
+    let user_id = <?php echo loggedInUserId();?>;
+    $('.like').click(function(){
+        $.ajax({
+            url: "/cms/post.php?p_id=<?php echo $get_post_id; ?>",
+            type:'post',
+            data: {
+                'liked': 1,
+                'post_id':post_id,
+                'user_id':user_id
+            }
+        })
 
     });
 });
+
+$(document).ready(function(){
+    let post_id = <?php echo $get_post_id;?>;
+    let user_id = <?php echo loggedInUserId();?>;
+    $('.unlike').click(function(){
+        $.ajax({
+            url: "/cms/post.php?p_id=<?php echo $get_post_id; ?>",
+            type:'post',
+            data: {
+                'unliked': 1,
+                'post_id':post_id,
+                'user_id':user_id
+            }
+        })
+
+    });
+});
+
 
 
 </script>       

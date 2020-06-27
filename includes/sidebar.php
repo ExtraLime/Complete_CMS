@@ -22,12 +22,12 @@
 
                 <?php if(isset($_SESSION['user_role'])): ?> 
                     <h4>Logged in in as: <?php echo $_SESSION['username']?></h4>
-                    <a href="includes/logout.php" class="btn btn-primary">Log Out</a>   
+                    <a href="/cms/includes/logout.php" class="btn btn-primary">Log Out</a>   
 
                 <?php else:?>     
 
                     <h4>Log In</h4>
-                   <form action="includes/login-old.php" method='post'>
+                   <form action="/cms/includes/login-old.php" method='post'>
                     
                     <div class="form-group">
                         <input name="username" type="text" class="form-control" placeholder="Enter Username">

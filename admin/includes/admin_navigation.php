@@ -1,8 +1,4 @@
-
-<?php
-$username = $_SESSION['username'];?>
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -12,26 +8,46 @@ $username = $_SESSION['username'];?>
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.php">CMS Admin</a>
-            </div>             
-              
-               
-                 <!-- Top Menu Items -->
+            </div>
+            <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <!-- <li><a href="" class="">Users Online: <?php echo users_online() ?></a></li> -->
-                <li><a href="" class="">Users Online: <span class="usersonline"></span></a></li>
 
-                <li><a href="../index.php" class="">Back To Home</a></li>
+              <!--   <li><a href="">Users Online: <?php //echo users_online(); ?></a></li> -->
+
+                <li><a href="#">Users Online: <span class="usersonline"></span></a></li>
+
+               <li><a href="../index.php">HOME SITE</a></li>
                
-
-                
+               
+               
+    
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $username ?><b class="caret"></b></a>
-                    <ul zIndex="-100000" class="dropdown-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                    
+<?php
+
+if(isset($_SESSION['username'])) {
+
+    
+    echo $_SESSION['username'];
+
+
+}
+
+
+
+
+?>
+                                    
+                    
+                    
+                    <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
                         <li>
-                            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                           
+                           
+                           
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -43,33 +59,35 @@ $username = $_SESSION['username'];?>
             
             
             
-            
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
                         <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
+                
+                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i>Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="posts_dropdown" class="collapse">
                             <li>
-                                <a href="./posts.php">View All Posts</a>
+                                <a href="./posts.php"> View All Posts</a>
                             </li>
                             <li>
-                                <a href="posts.php?source=add_post">Add Post</a>
+                                <a href="posts.php?source=add_post">Add Posts</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li>
                         <a href="./categories.php"><i class="fa fa-fw fa-wrench"></i> Categories</a>
                     </li>
+                   
                     <li class="">
                         <a href="comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
                     </li>
+                    
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#users_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="users_dropdown" class="collapse">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
                             <li>
                                 <a href="users.php">View All Users</a>
                             </li>
@@ -78,10 +96,18 @@ $username = $_SESSION['username'];?>
                             </li>
                         </ul>
                     </li>
-                     <li>
-                        <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile </a>
+                    
+                    <li>
+                        <a href="profile.php"><i class="fa fa-fw fa-dashboard"></i> Profile</a>
                     </li>
+                    
+                    
+                    
                 </ul>
             </div>
+            
+            
+            
             <!-- /.navbar-collapse -->
         </nav>
+        
