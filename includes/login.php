@@ -45,7 +45,7 @@ if(password_verify($user_password,$db_user_password)){
         $_SESSION['lastname'] = $db_user_last_name;
         $_SESSION['user_role'] = $db_user_role;
         
-        header("Location: ../admin/");
+        header("Location: ../admin/index.php");
     }else{
         echo "Login Failed";
         header("Location: ../index.php");
