@@ -100,7 +100,7 @@ if(isset($_POST['unliked'])){
                         </p>
                         <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date?></p>
                         <hr>
-                        <img class="img-responsive" src="<?php echo imagePlaceholder($post_image)?>" alt="">
+                        <img class="img-responsive" src="/<?php echo imagePlaceholder($post_image)?>" alt="">
                         <hr>
                         <p><?php echo $post_content?></p>
 
