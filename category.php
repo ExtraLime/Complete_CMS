@@ -53,7 +53,7 @@
 
                         <!-- First Blog Post -->
                         <h2>
-                            <a href="/cms/post/<?php echo $post_id?>"><?php echo $post_title?></a>
+                            <a href="/post/<?php echo $post_id?>"><?php echo $post_title?></a>
                         </h2>
                         <p class="lead">
                             by <a href="index"><?php echo $post_user?></a>
@@ -63,7 +63,7 @@
                         <img class="img-responsive" src="<?php echo imagePlaceholder($post_image)?>" alt="">
                         <hr>
                         <p><?php echo $post_content?>...</p>
-                        <a class="btn btn-primary" href="/cms/post/<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <a class="btn btn-primary" href="post/<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                         <hr>
                 <?php  }}?>

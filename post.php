@@ -121,7 +121,7 @@ if(isset($_POST['unliked'])){
                     <?php  } else { ?>
 
                             <div class="row">
-                                <p class="pull-right login-to-post">You need to <a href="/cms/login.php">Login</a> to like </p>
+                                <p class="pull-right login-to-post">You need to <a href="login.php">Login</a> to like </p>
                             </div>          
                     <?php }?>
 
@@ -253,7 +253,7 @@ $(document).ready(function(){
     let user_id = <?php echo loggedInUserId();?>;
     $('.like').click(function(){
         $.ajax({
-            url: "/cms/post.php?p_id=<?php echo $get_post_id; ?>",
+            url: "post.php?p_id=<?php echo $get_post_id; ?>",
             type:'post',
             data: {
                 'liked': 1,
@@ -270,7 +270,7 @@ $(document).ready(function(){
     let user_id = <?php echo loggedInUserId();?>;
     $('.unlike').click(function(){
         $.ajax({
-            url: "/cms/post.php?p_id=<?php echo $get_post_id; ?>",
+            url: "post.php?p_id=<?php echo $get_post_id; ?>",
             type:'post',
             data: {
                 'unliked': 1,

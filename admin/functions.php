@@ -5,7 +5,7 @@ function imagePlaceholder($image = ''){
         return "https://via.placeholder.com/150";
     }else
     {
-        return "/cms/images/".$image;
+        return "images/".$image;
     }
 }
 
@@ -443,7 +443,7 @@ function register_user($username, $email, $password){
 
 
 
-             header("Location: /cms/admin/");
+             header("Location: admin/");
 
 
          } else {

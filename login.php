@@ -16,7 +16,7 @@
 			}else {
 
 
-				redirect('/cms/login.php');
+				redirect('login.php');
 			}
 
 		}
