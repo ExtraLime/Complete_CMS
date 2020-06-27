@@ -54,15 +54,15 @@
 
                             <!-- First Blog Post -->
                             <h2>
-                                <a href="post/<?php echo $post_id?>"><?php echo $post_title?></a>
+                                <a href="/post/<?php echo $post_id?>"><?php echo $post_title?></a>
                             </h2>
                             <p class="lead">
-                                by <a href="author_posts.php?user=<?php echo $post_user?>&p_id=<?php echo $post_id?>"><?php echo $post_user?></a>
+                                by <a href="/author_posts.php?user=<?php echo $post_user?>&p_id=<?php echo $post_id?>"><?php echo $post_user?></a>
                             </p>
                             <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date?></p>
                             <hr>
                             <a href="post.php?p_id=<?php echo $post_id?>">
-                            <img  class="img-responsive" src="<?php echo imagePlaceholder($post_image)?>" alt=""></a>
+                            <img  class="img-responsive" src="/images/<?php echo imagePlaceholder($post_image)?>" alt=""></a>
                             <hr>
                             <p><?php echo $post_content?>...</p>
 
@@ -82,27 +82,27 @@
         if ($count > 0){
             if($page > 2){
                 $back = $page - 2;
-                echo "<li><a href='index.php?page={$back}'>Back</a></li>";
+                echo "<li><a href='/index.php?page={$back}'>Back</a></li>";
                 for($i = $page-2; $i<= $page+2; $i++) {
                     if($i == $page){
-                        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                        echo "<li><a class='active_link' href='/index.php?page={$i}'>{$i}</a></li>"; 
                     }else{
-                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                    echo "<li><a href='/index.php?page={$i}'>{$i}</a></li>";
                     }
                 }
             }else{
                 for($i = 1; $i<= 3; $i++) {
                     if($i == $page){
-                        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>"; 
+                        echo "<li><a class='active_link' href='/index.php?page={$i}'>{$i}</a></li>"; 
                     }else{
-                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                    echo "<li><a href='/index.php?page={$i}'>{$i}</a></li>";
                     }
                 }
             }
         
         ?>
 
-            <li><a href='index.php?page=<?php echo parseInt($page)+1?>'>Next</a></li>
+            <li><a href='/index.php?page=<?php echo parseInt($page)+1?>'>Next</a></li>
             <?php } ?>
         </ul>
 
