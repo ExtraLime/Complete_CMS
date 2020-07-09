@@ -19,9 +19,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['userfile']) && $_FILES
         $upload = $s3->upload($bucket, $_FILES['userfile']['name'], fopen($_FILES['userfile']['tmp_name'], 'rb'), 'public-read');
 ?>
         <p>Upload <a href="<?=htmlspecialchars($upload->get('ObjectURL'))?>">successful</a> :)</p>
-<?php } catch(Exception $e) { ?>
+<?php } catch(Exception $e) { die("Error: " . $e->getMessage());?>
         <p>Upload error :(</p>
-<?php } } ?>
+<?php } catch(Exception $e) {die("Error: ". $e->getMessage());} } ?>
         <h2>Upload a file</h2>
         <form enctype="multipart/form-data" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
             <input name="userfile" type="file"><input type="submit" value="Upload">
