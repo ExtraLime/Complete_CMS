@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image']) && $_FILES['i
 <?php echo $e;} } ?>
         <h2>Upload a file</h2>
         <form enctype="multipart/form-data" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
-            <input name="image" type="file"><input type="submit" value="Upload">
+            <input filename="image" name="image" type="file"><input type="submit" value="Upload">
         </form>
     </body>
 </html>
