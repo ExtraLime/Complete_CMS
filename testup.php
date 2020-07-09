@@ -7,7 +7,7 @@ $s3 = new Aws\S3\S3Client([
 ]);
 $bucket = getenv('BUCKETEER_BUCKET_NAME')?: die('No "S3_BUCKET" config var in found in env!');
 ?>
-<?php print_r($bucket);?>
+<?php print_r($bucket); echo phpinfo();?>
 <html>
     <head><meta charset="UTF-8"></head>
     <body>
