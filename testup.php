@@ -6,7 +6,6 @@ $s3 = new Aws\S3\S3Client([
     'region'   => 'us-east-1',
 ]);
 $bucket = getenv('BUCKETEER_BUCKET_NAME')?: die('No "S3_BUCKET" config var in found in env!');
-echo $bucket;
 ?>
 <html>
     <head><meta charset="UTF-8"></head>
@@ -17,14 +16,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image']) && $_FILES['i
     // FIXME: you should add more of your own validation here, e.g. using ext/fileinfo
     try {
         // FIXME: you should not use 'name' for the upload, since that's the original filename from the user's computer - generate a random filename that you then store in your database, or similar
-        $upload = $s3->upload($bucket, $_FILES['image']['image'], fopen($_FILES['image']['tmp_image'], 'rb'), 'public-read');
+        $upload = $s3->upload($bucket, $_FILES['image']['image'], fopen($_FILES['image']['tmp_name'], 'rb'), 'public-read');
 ?>
         <p>Upload <a href="<?=htmlspecialchars($upload->get('ObjectURL'))?>">successful</a> :)</p>
 <?php } catch(Exception $e) { ?>
         <p>Upload error :(</p>
-<?php echo $e; } } ?>
+<?php echo $e;} } ?>
         <h2>Upload a file</h2>
-        <form enctype="multipart/form-data" action="" method="POST">
+        <form enctype="multipart/form-data" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
             <input name="image" type="file"><input type="submit" value="Upload">
         </form>
     </body>
